@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MOONERA Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#4ade80;--g2:#16a34a;--grad:linear-gradient(135deg,#4ade80 0%,#22c55e 50%,#16a34a 100%);--gbtn:linear-gradient(135deg,#4ade80,#16a34a);--rc:20px;--rb:50px;--tr:0.3s cubic-bezier(0.4,0,0.2,1)}
+[data-theme="dark"]{--bg:#141414;--bg3:#242424;--sf:#1e1e1e;--sf2:#2a2a2a;--bd:rgba(255,255,255,0.07);--tx:#f0f0f0;--tx2:#a0a0a0;--sh:0 8px 32px rgba(0,0,0,0.5);--ov:rgba(20,20,20,0.97)}
+[data-theme="light"]{--bg:#f5f5f3;--bg3:#e0e0de;--sf:#ffffff;--sf2:#f0f0ee;--bd:rgba(0,0,0,0.08);--tx:#111111;--tx2:#666666;--sh:0 8px 32px rgba(0,0,0,0.1);--ov:rgba(245,245,243,0.97)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;transition:background var(--tr),color var(--tr)}
+
+/* LOGIN */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lcard{width:100%;max-width:380px;background:var(--sf);border-radius:28px;padding:40px 32px;border:1px solid var(--bd);box-shadow:var(--sh)}
+.llogo{display:flex;align-items:center;gap:12px;margin-bottom:32px;justify-content:center}
+.lico{width:48px;height:48px;border-radius:14px;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;overflow:hidden}
+.lico img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+.ltxt{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lsub{text-align:center;font-size:13px;color:var(--tx2);margin-bottom:28px}
+.fl{font-size:12px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:block}
+.fi{width:100%;padding:14px 16px;border-radius:16px;border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx);font-size:15px;font-family:'Inter',sans-serif;outline:none;margin-bottom:14px;transition:border-color var(--tr)}
+.fi:focus{border-color:var(--g1)}
+.fi::placeholder{color:var(--tx2)}
+.pass-wrap{position:relative;margin-bottom:20px}
+.pass-wrap .fi{margin-bottom:0;padding-right:50px}
+.show-pass{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:var(--tx2)}
+.lbtn{width:100%;padding:15px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(74,222,128,0.4);transition:var(--tr)}
+.lbtn:active{transform:scale(0.98)}
+.lerr{color:#f87171;font-size:13px;text-align:center;margin-top:12px;display:none}
+.lerr.on{display:block}
+
+/* LAYOUT */
+.adm{display:none;flex-direction:column;min-height:100vh}
+.adm.on{display:flex}
+.ahdr{position:sticky;top:0;z-index:100;background:var(--ov);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.alogo{display:flex;align-items:center;gap:10px}
+.aico{width:36px;height:36px;border-radius:10px;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff;overflow:hidden}
+.aico img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.atxt{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.abdg{font-size:10px;font-weight:600;background:var(--sf2);color:var(--tx2);padding:2px 8px;border-radius:50px;border:1px solid var(--bd);margin-left:4px;-webkit-text-fill-color:var(--tx2)}
+.arhs{display:flex;gap:8px}
+.ibtn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:var(--tr);color:var(--tx)}
+.ibtn:active{transform:scale(0.92)}
+.loutbtn{width:38px;height:38px;border-radius:50%;background:rgba(239,68,68,0.15);border:1.5px solid rgba(239,68,68,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px}
+
+/* TABS */
+.tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;padding:0 8px;gap:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:12px 16px;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:var(--tr);white-space:nowrap}
+.tab.on{color:var(--g1);border-bottom-color:var(--g1)}
+.tc{display:none;padding:16px;padding-bottom:40px}
+.tc.on{display:block}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.scard{background:var(--sf);border-radius:var(--rc);padding:16px;border:1px solid var(--bd)}
+.slbl{font-size:11px;color:var(--tx2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.sval{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ssub{font-size:11px;color:var(--tx2);margin-top:2px}
+
+/* MISC UI */
+.sechdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sectitle{font-family:'Syne',sans-serif;font-size:17px;font-weight:700}
+.gbtn{padding:8px 16px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(74,222,128,0.35);transition:var(--tr);display:inline-flex;align-items:center;gap:6px}
+.gbtn:active{transform:scale(0.96)}
+.gbtnw{width:100%;padding:13px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(74,222,128,0.35);transition:var(--tr);display:flex;justify-content:center;align-items:center}
+.gbtnw:active{transform:scale(0.98)}
+.srch{display:flex;align-items:center;gap:10px;background:var(--sf);border-radius:14px;border:1.5px solid var(--bd);padding:10px 14px;margin-bottom:14px}
+.srch input{flex:1;background:none;border:none;outline:none;color:var(--tx);font-size:14px;font-family:'Inter',sans-serif}
+.srch input::placeholder{color:var(--tx2)}
+.rbtn{width:32px;height:32px;border-radius:50%;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:var(--tr);color:var(--tx)}
+.rbtn.del{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2)}
+.rbtn:active{transform:scale(0.9)}
+.setcard{background:var(--sf);border-radius:var(--rc);padding:20px;border:1px solid var(--bd);margin-bottom:14px}
+.settitle{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px}
+.fsel{width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx);font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:14px;appearance:none;cursor:pointer}
+.fsel:focus{border-color:var(--g1)}
+
+/* ORDER STATUS BADGE — exact 3 statuses */
+.sbdg{padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;display:inline-block}
+.s-proc{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
+.s-ship{background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3)}
+.s-done{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.s-cancel{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+
+/* ORDERS — categorized tabs inside CRM */
+.ord-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.ord-tab{padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600;border:1.5px solid var(--bd);background:var(--sf);color:var(--tx2);cursor:pointer;transition:var(--tr)}
+.ord-tab.on{background:var(--gbtn);border-color:transparent;color:#fff}
+
+/* ORDER CARD in CRM */
+.ocard{background:var(--sf);border-radius:16px;border:1px solid var(--bd);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:var(--tr)}
+.ocard:active{transform:scale(0.99)}
+.ocard-top{padding:14px 14px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ocard-id{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.ocard-date{font-size:11px;color:var(--tx2);margin-top:2px}
+.ocard-body{padding:0 14px 12px;display:flex;gap:12px;border-top:1px solid var(--bd)}
+.ocard-client{flex:1;padding-top:10px}
+.ocard-client-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ocard-avatar{width:36px;height:36px;border-radius:50%;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff;flex-shrink:0}
+.ocard-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.ocard-meta{font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:8px}
+.ocard-items-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;margin-bottom:6px;color:var(--tx2)}
+.ocard-item{font-size:12px;padding:5px 0;border-bottom:1px solid var(--bd);color:var(--tx)}
+.ocard-total{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}
+.ocard-actions{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--bd);align-items:center}
+.stat-select{padding:8px 12px;border-radius:50px;border:1px solid var(--bd);background:var(--sf2);color:var(--tx);font-size:12px;font-weight:600;font-family:'Inter',sans-serif;outline:none;cursor:pointer;flex:1}
+
+/* PRODUCT GRID in admin (like shop) */
+.admin-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.apcard{background:var(--sf);border-radius:var(--rc);overflow:hidden;border:1px solid var(--bd);cursor:grab;transition:var(--tr);position:relative}
+.apcard.dragging{opacity:0.5;transform:scale(0.97)}
+.apcard.drag-over{border:2px solid var(--g1);transform:scale(1.02)}
+.ap-img{width:100%;aspect-ratio:4/5;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden}
+.ap-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.ap-info{padding:10px 12px}
+.ap-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-cat{font-size:10px;color:var(--tx2);margin-bottom:4px}
+.ap-price{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ap-actions{position:absolute;top:6px;right:6px;display:flex;gap:4px}
+.ap-actions .rbtn{width:28px;height:28px;font-size:12px}
+
+/* MODAL SHEET */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;opacity:0;pointer-events:none;transition:opacity var(--tr);backdrop-filter:blur(6px)}
+.mov.on{opacity:1;pointer-events:all}
+.msh{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-radius:24px 24px 0 0;z-index:201;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);max-height:92vh;overflow-y:auto;scrollbar-width:none;padding-bottom:40px}
+.msh::-webkit-scrollbar{display:none}
+.msh.on{transform:translateY(0)}
+.mhandle{width:40px;height:4px;background:var(--bd);border-radius:2px;margin:12px auto 0}
+.mhdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--bd)}
+.mtitle{font-family:'Syne',sans-serif;font-size:18px;font-weight:700}
+.mclose{width:32px;height:32px;border-radius:50%;background:var(--sf2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx)}
+.mbody{padding:16px 20px}
+.imgbox{border:2px dashed var(--bd);border-radius:16px;padding:20px;text-align:center;cursor:pointer;margin-bottom:14px;position:relative;transition:border-color var(--tr)}
+.imgbox:hover{border-color:var(--g1)}
+.imgbox input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.imgprev{width:80px;height:90px;border-radius:14px;object-fit:contain;margin:0 auto 8px;display:block}
+.imgph{font-size:36px;margin-bottom:6px}
+.imghint{font-size:12px;color:var(--tx2)}
+.pschip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:50px;background:var(--sf2);border:1.5px solid var(--bd);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--tx)}
+.pschip button{background:none;border:none;cursor:pointer;color:var(--tx2);font-size:14px;line-height:1;padding:0}
+.pcchip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 6px;border-radius:50px;background:var(--sf2);border:1.5px solid var(--bd);font-size:12px;font-weight:600;color:var(--tx)}
+.ccdot{width:20px;height:20px;border-radius:50%;flex-shrink:0}
+.pcchip button{background:none;border:none;cursor:pointer;color:var(--tx2);font-size:14px;line-height:1;padding:0;margin-left:2px}
+
+/* CONFIRM */
+.conf{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;opacity:0;pointer-events:none;transition:opacity var(--tr);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.conf.on{opacity:1;pointer-events:all}
+.confbox{background:var(--sf);border-radius:24px;padding:28px 24px;width:100%;max-width:320px;border:1px solid var(--bd);text-align:center;transform:scale(0.9);transition:transform var(--tr)}
+.conf.on .confbox{transform:scale(1)}
+.confbtns{display:flex;gap:10px;margin-top:20px}
+.confcancel{flex:1;padding:13px;border-radius:var(--rb);background:var(--sf2);border:1px solid var(--bd);color:var(--tx);font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.confdel{flex:1;padding:13px;border-radius:var(--rb);background:linear-gradient(135deg,#f87171,#ef4444);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+
+/* LOGO UPLOAD */
+.logo-upload{border:2px dashed var(--bd);border-radius:16px;padding:28px;text-align:center;cursor:pointer;transition:border-color var(--tr);margin-bottom:14px;position:relative}
+.logo-upload:hover{border-color:var(--g1)}
+.logo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.lprev{width:72px;height:72px;border-radius:18px;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:#fff;margin:0 auto 12px;overflow:hidden}
+.lprev img{width:100%;height:100%;object-fit:cover;border-radius:18px}
+.uhint{font-size:13px;color:var(--tx2);line-height:1.5}
+.uhint strong{color:var(--g1);display:block;margin-bottom:4px}
+.typebtns{display:flex;gap:8px;margin-bottom:14px}
+.typebtn{flex:1;padding:10px;border-radius:12px;border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:var(--tr)}
+.typebtn.on{border-color:var(--g1);background:var(--gbtn);color:#fff}
+.bprev{border-radius:16px;padding:20px;margin-bottom:14px}
+
+/* SUPPORT in admin */
+.sup-msg-adm{font-size:13px;line-height:1.6;padding:10px 14px;border-radius:12px;margin-bottom:4px}
+.sup-msg-adm.user{background:var(--sf2);color:var(--tx);margin-right:30px}
+.sup-msg-adm.admin{background:var(--gbtn);color:#fff;margin-left:30px}
+
+/* SUPPORT CHAT */
+.sup-client-card{background:var(--sf);border-radius:16px;padding:14px;border:1px solid var(--bd);margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:var(--tr)}
+.sup-client-card:active{transform:scale(0.98)}
+.sup-client-avatar{width:48px;height:48px;border-radius:50%;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;flex-shrink:0;overflow:hidden;position:relative}
+.sup-client-avatar img{width:100%;height:100%;object-fit:cover}
+.sup-unread-dot{position:absolute;top:0;right:0;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid var(--sf)}
+.sup-chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 130px);padding:0}
+.sup-chat-hdr{display:flex;align-items:center;gap:12px;padding:0 0 14px;border-bottom:1px solid var(--bd);margin-bottom:0;flex-shrink:0}
+.sup-msgs-area{flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 0;min-height:0}
+.sup-msgs-area::-webkit-scrollbar{display:none}
+.smsg{margin-bottom:12px;overflow:hidden}
+.smsg-bubble{font-size:14px;line-height:1.6;padding:12px 16px;border-radius:18px;max-width:85%;display:inline-block;word-break:break-word}
+.smsg.user .smsg-bubble{background:var(--sf2);color:var(--tx);border-bottom-left-radius:4px}
+.smsg.admin .smsg-bubble{background:var(--gbtn);color:#fff;border-bottom-right-radius:4px;float:right}
+.smsg.admin{text-align:right}
+.smsg-time{font-size:10px;color:var(--tx2);margin-top:4px;clear:both}
+.smsg.admin .smsg-time{text-align:right}
+.sup-input-row{display:flex;gap:8px;flex-shrink:0;padding-top:12px;border-top:1px solid var(--bd);margin-top:auto}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gbtn);color:#fff;padding:12px 24px;border-radius:50px;font-size:13px;font-weight:600;z-index:500;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 6px 20px rgba(74,222,128,0.4);white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginScreen">
+  <div class="lcard">
+    <div class="llogo"><div class="lico" id="loginIco">M</div><span class="ltxt">MOONERA</span></div>
+    <div class="lsub">Панель управления</div>
+    <label class="fl">Пароль</label>
+    <div class="pass-wrap">
+      <input class="fi" type="password" id="lpass" placeholder="Введи пароль" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="show-pass" onclick="togglePass()" id="passEye">👁</button>
+    </div>
+    <button class="lbtn" onclick="doLogin()">Войти</button>
+    <div class="lerr" id="lerr">Неверный пароль</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="adm" id="admLayout">
+  <header class="ahdr">
+    <div class="alogo"><div class="aico" id="admIco">M</div><span class="atxt">MOONERA</span><span class="abdg">Admin</span></div>
+    <div class="arhs">
+      <button class="ibtn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+      <button class="loutbtn" onclick="doLogout()">🚪</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <div class="tab on" onclick="swTab('dash',this)">📊 Дашборд</div>
+    <div class="tab" onclick="swTab('crm',this)">📦 Заказы</div>
+    <div class="tab" onclick="swTab('prods',this)">👕 Товары</div>
+    <div class="tab" onclick="swTab('support',this)">💬 Чат <span id="sup-notif-dot" style="display:none;width:8px;height:8px;border-radius:50%;background:#ef4444;display:inline-block;margin-left:4px;vertical-align:middle"></span></div>
+    <div class="tab" onclick="swTab('set',this)">⚙️ Настройки</div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tc on" id="tab-dash">
+    <div class="stats">
+      <div class="scard"><div class="slbl">Заказов</div><div class="sval" id="st-ord">0</div><div class="ssub">всего</div></div>
+      <div class="scard"><div class="slbl">Выручка</div><div class="sval" id="st-rev">0</div><div class="ssub">только выполненные</div></div>
+      <div class="scard"><div class="slbl">В работе</div><div class="sval" id="st-act">0</div><div class="ssub">активных</div></div>
+      <div class="scard"><div class="slbl">Товаров</div><div class="sval" id="st-pro">0</div><div class="ssub">в каталоге</div></div>
+    </div>
+    <div class="sechdr"><div class="sectitle">Последние заказы</div></div>
+    <div id="dash-orders"></div>
+  </div>
+
+  <!-- CRM / ORDERS -->
+  <div class="tc" id="tab-crm">
+    <div class="sechdr">
+      <div class="sectitle">Заказы</div>
+      <button class="gbtn" style="background:linear-gradient(135deg,#f87171,#ef4444);box-shadow:0 3px 12px rgba(239,68,68,0.3)" onclick="clearOrders()">🗑 Очистить</button>
+    </div>
+    <!-- Status filter tabs -->
+    <div class="ord-tabs">
+      <div class="ord-tab on" onclick="setOrdFilter('all',this)">Все</div>
+      <div class="ord-tab" onclick="setOrdFilter('В обработке',this)">⚙️ В обработке</div>
+      <div class="ord-tab" onclick="setOrdFilter('Передан курьеру',this)">🚚 Курьер</div>
+      <div class="ord-tab" onclick="setOrdFilter('Выполнен',this)">✅ Выполнен</div>
+      <div class="ord-tab" onclick="setOrdFilter('Отменён',this)">❌ Отменён</div>
+    </div>
+    <div id="ordersEl"></div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="tc" id="tab-prods">
+    <div class="sechdr"><div class="sectitle">Товары</div><button class="gbtn" onclick="openAddChoice()">+ Добавить</button></div>
+    <div class="srch"><span>🔍</span><input type="text" placeholder="Поиск..." oninput="renderProds(this.value)"></div>
+    <div class="admin-pgrid" id="prodGridEl"></div>
+  </div>
+
+  <!-- SUPPORT CHAT -->
+  <div class="tc" id="tab-support">
+    <div id="sup-clients" style="width:100%"></div>
+    <div id="sup-chat" style="display:none"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tc" id="tab-set">
+    <div class="setcard">
+      <div class="settitle">🖼 Логотип</div>
+      <div class="logo-upload"><input type="file" accept="image/*,.svg" onchange="handleLogo(event)">
+        <div class="lprev" id="lprev">M</div>
+        <div class="uhint"><strong>Нажми чтобы загрузить</strong>PNG, JPG или SVG</div>
+      </div>
+      <button class="gbtnw" onclick="saveLogo()">Сохранить логотип</button>
+    </div>
+    <div class="setcard">
+      <div class="settitle">🖊 Главный баннер</div>
+      <label class="fl">Тег</label><input class="fi" type="text" id="bt" placeholder="✦ Новая коллекция">
+      <label class="fl">Заголовок 1</label><input class="fi" type="text" id="bt1" placeholder="Streetwear">
+      <label class="fl">Заголовок 2</label><input class="fi" type="text" id="bt2" placeholder="нового уровня">
+      <label class="fl">Подзаголовок</label><input class="fi" type="text" id="bsub" placeholder="Уникальные дропы...">
+      <div style="display:flex;gap:10px;margin-bottom:14px">
+        <div><label class="fl">Цвет от</label><input type="color" id="bc1" value="#4ade80" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div>
+        <div><label class="fl">Цвет до</label><input type="color" id="bc2" value="#16a34a" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div>
+      </div>
+      <div class="bprev" id="bprev"><div id="bp-tag" style="display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px;margin-bottom:8px;text-transform:uppercase"></div><div id="bp-ttl" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:4px;white-space:pre-line"></div><div id="bp-sub" style="color:rgba(255,255,255,0.85);font-size:12px"></div></div>
+      <button class="gbtnw" onclick="saveBanner()">Сохранить баннер</button>
+    </div>
+    <div class="setcard">
+      <div class="settitle">🎨 Цвет MOONERA</div>
+      <div class="typebtns"><button class="typebtn on" id="ctype-grad" onclick="setCType('gradient')">Градиент</button><button class="typebtn" id="ctype-solid" onclick="setCType('solid')">Один цвет</button></div>
+      <div id="grad-flds" style="display:flex;gap:10px;margin-bottom:14px"><div><label class="fl">От</label><input type="color" id="lc1" value="#4ade80" oninput="updLCPrev()"></div><div><label class="fl">До</label><input type="color" id="lc2" value="#16a34a" oninput="updLCPrev()"></div></div>
+      <div id="solid-fld" style="display:none;margin-bottom:14px"><label class="fl">Цвет</label><input type="color" id="lcs" value="#4ade80" oninput="updLCPrev()"></div>
+      <div style="background:var(--sf2);border-radius:14px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:10px;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff">M</div><span id="lc-prev" style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;background:linear-gradient(135deg,#4ade80,#16a34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MOONERA</span></div>
+      <button class="gbtnw" onclick="saveLogoColor()">Сохранить цвет</button>
+    </div>
+    <div class="setcard">
+      <div class="settitle">🖼 Баннеры коллекций</div>
+      <div id="collBanList" style="margin-bottom:14px"></div>
+      <div style="background:var(--sf2);border-radius:16px;padding:14px;border:1px solid var(--bd)">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px">+ Новый баннер</div>
+        <label class="fl">Название</label><input class="fi" type="text" id="cb-title" placeholder="Shimomoto">
+        <label class="fl">Тег</label><input class="fi" type="text" id="cb-tag" placeholder="Коллекция">
+        <label class="fl">Описание</label><input class="fi" type="text" id="cb-sub" placeholder="Описание...">
+        <label class="fl">Категория</label><input class="fi" type="text" id="cb-cat" placeholder="Shimomoto">
+        <div style="display:flex;gap:10px;margin-bottom:14px"><div><label class="fl">Фон от</label><input type="color" id="cb-c1" value="#1a0533" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div><div><label class="fl">Фон до</label><input type="color" id="cb-c2" value="#1a3355" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div></div>
+        <button class="gbtnw" onclick="addCollBan()">Добавить баннер</button>
+      </div>
+    </div>
+    <div class="setcard">
+      <div class="settitle">⭐ Отзывы</div>
+      <div id="revListEl"></div>
+    </div>
+    <div class="setcard">
+      <div class="settitle">🔒 Пароль</div>
+      <label class="fl">Текущий</label><input class="fi" type="password" id="op" placeholder="••••••">
+      <label class="fl">Новый</label><input class="fi" type="password" id="np" placeholder="••••••">
+      <label class="fl">Повтори</label><input class="fi" type="password" id="np2" placeholder="••••••">
+      <button class="gbtnw" onclick="changePass()">Сохранить пароль</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CHOICE MODAL -->
+<div class="mov" id="choiceOv" onclick="closeChoice()"></div>
+<div class="msh" id="choiceSh">
+  <div class="mhandle"></div>
+  <div class="mhdr"><div class="mtitle">Добавить товар</div><button class="mclose" onclick="closeChoice()">✕</button></div>
+  <div class="mbody">
+    <div style="margin-bottom:14px;font-size:13px;color:var(--tx2)">Выберите куда добавить:</div>
+    <button class="gbtnw" style="margin-bottom:10px" onclick="openProdModal(null,'new');closeChoice()">+ Новый отдельный товар</button>
+    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin:14px 0 10px">Или добавить в коллекцию:</div>
+    <div id="collChoiceList"></div>
+    <div style="border-top:1px solid var(--bd);margin:14px 0;padding-top:14px">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px">+ Создать новую коллекцию</div>
+      <label class="fl">Название коллекции</label><input class="fi" type="text" id="newCollName" placeholder="Название коллекции">
+      <label class="fl">Категория (ключ для фильтра)</label><input class="fi" type="text" id="newCollCat" placeholder="Например: Summer2025">
+      <label class="fl">Описание</label><input class="fi" type="text" id="newCollSub" placeholder="Описание коллекции">
+      <div style="display:flex;gap:10px;margin-bottom:14px"><div><label class="fl">Фон от</label><input type="color" id="newCollC1" value="#1a0533" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div><div><label class="fl">Фон до</label><input type="color" id="newCollC2" value="#1a3355" style="width:48px;height:40px;border-radius:12px;border:none;cursor:pointer"></div></div>
+      <button class="gbtnw" onclick="createNewColl()">Создать коллекцию</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="mov" id="prodMov" onclick="closeProdModal()"></div>
+<div class="msh" id="prodMsh">
+  <div class="mhandle"></div>
+  <div class="mhdr"><div class="mtitle" id="prodMTitle">Новый товар</div><button class="mclose" onclick="closeProdModal()">✕</button></div>
+  <div class="mbody">
+    <label class="fl">Фото товара (до 5 штук, формат 4:5)</label>
+    <!-- Multi-image upload area -->
+    <div id="imgPreviewRow" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"></div>
+    <div class="imgbox" style="margin-bottom:14px">
+      <input type="file" accept="image/*" multiple onchange="handleProdImgs(event)">
+      <div class="imgph">📷</div>
+      <div class="imghint">Нажми чтобы добавить фото (можно несколько)</div>
+    </div>
+    <label class="fl">Название</label><input class="fi" type="text" id="pn" placeholder="Название товара">
+    <label class="fl">Категория</label>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <select class="fsel" style="flex:1;margin:0" id="pcat"></select>
+      <button class="gbtn" onclick="toggleAddCat()">+ Категория</button>
+    </div>
+    <div id="addCatBox" style="display:none;background:var(--sf2);border-radius:14px;padding:12px;margin-bottom:14px">
+      <div style="display:flex;gap:8px"><input class="fi" style="margin:0;flex:1" type="text" id="newCatVal" placeholder="Новая категория..."><button class="gbtn" onclick="addCatInline()">+</button></div>
+    </div>
+    <label class="fl">Цена (сум)</label><input class="fi" type="number" id="pp" placeholder="250000">
+    <label class="fl">Бейдж</label><input class="fi" type="text" id="pb" placeholder="Хит / Новинка / Лимитед...">
+    <label class="fl">Описание</label><input class="fi" type="text" id="pd" placeholder="Краткое описание">
+    <label class="fl">Порядок (меньше = выше в списке)</label><input class="fi" type="number" id="porder" placeholder="0">
+    <label class="fl">Размеры этого товара</label>
+    <div id="pSizeChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px"><input class="fi" style="margin:0;flex:1" type="text" id="psnew" placeholder="Добавить размер..."><button class="gbtn" onclick="addPS()">+</button></div>
+    <label class="fl">Цвета этого товара</label>
+    <div id="pColorChips" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+      <input class="fi" style="margin:0;flex:1;min-width:110px" type="text" id="pcname" placeholder="Название цвета...">
+      <input type="color" id="pchex" value="#1a1a1a" style="width:46px;height:46px;border-radius:12px;border:1.5px solid var(--bd);cursor:pointer;flex-shrink:0">
+      <button class="gbtn" onclick="addPC()">+</button>
+    </div>
+    <button class="gbtnw" onclick="saveProd()">Сохранить товар</button>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="conf" id="confOv">
+  <div class="confbox">
+    <div style="font-size:40px;margin-bottom:12px" id="confIcon">🗑</div>
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px" id="confTitle">Удалить?</div>
+    <div style="font-size:13px;color:var(--tx2)" id="confSub">Это действие нельзя отменить</div>
+    <div class="confbtns"><button class="confcancel" onclick="closeConf()">Отмена</button><button class="confdel" id="confOkBtn">Удалить</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK — compat version (no module needed) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2ymxk6xYOHlNixe3AF_KFn_v9r58OQbw",
+  authDomain: "moonera-dc684.firebaseapp.com",
+  projectId: "moonera-dc684",
+  storageBucket: "moonera-dc684.firebasestorage.app",
+  messagingSenderId: "284650695736",
+  appId: "1:284650695736:web:98000b87af022be9f4cacd"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+window.fbGet = async (col) => {
+  const snap = await db.collection(col).get();
+  return snap.docs.map(d => ({id: d.id, ...d.data()}));
+};
+window.fbSet = async (col, id, data) => {
+  await db.collection(col).doc(String(id)).set(data);
+};
+window.fbAdd = async (col, data) => {
+  const r = await db.collection(col).add(data);
+  return r.id;
+};
+window.fbUpdate = async (col, id, data) => {
+  await db.collection(col).doc(String(id)).update(data);
+};
+window.fbDel = async (col, id) => {
+  await db.collection(col).doc(String(id)).delete();
+};
+window.fbListen = (col, cb) => {
+  return db.collection(col).onSnapshot(snap => {
+    cb(snap.docs.map(d => ({id: d.id, ...d.data()})));
+  });
+};
+window.fbListenDoc = (col, id, cb) => {
+  return db.collection(col).doc(String(id)).onSnapshot(snap => {
+    if(snap.exists) cb({id: snap.id, ...snap.data()});
+  });
+};
+
+window._firebaseReady = true;
+window.dispatchEvent(new Event('firebaseReady'));
+console.log('Firebase connected ✓');
+
+// Safe wrappers — работают даже если Firebase ещё грузится
+window.safeSet = (col,id,data) => { if(window.fbSet) window.fbSet(col,id,data).catch(console.warn); };
+window.safeAdd = (col,data) => { if(window.fbAdd) return window.fbAdd(col,data).catch(console.warn); };
+window.safeDel = (col,id) => { if(window.fbDel) window.fbDel(col,id).catch(console.warn); };
+window.safeUpdate = (col,id,data) => { if(window.fbUpdate) window.fbUpdate(col,id,data).catch(console.warn); };
+</script>
+
+<script>
+// ===== EXACT 3 STATUS VALUES (same as shop) =====
+const STAT_OPTS=['В обработке','Передан курьеру','Выполнен','Отменён'];
+function statCls(s){return s==='В обработке'?'s-proc':s==='Передан курьеру'?'s-ship':s==='Выполнен'?'s-done':'s-cancel';}
+
+const DEF_PASS='moonera2024';
+const EMOJIS={'Футболки':'👕','Худи':'🧥','Брюки':'👖','Шорты':'🩳','Shimomoto':'🌸'};
+const CATD=['Футболки','Худи','Брюки','Шорты','Shimomoto'];
+const SD=['XS','S','M','L','XL','XXL'];
+const CD=[{name:'Чёрный',hex:'#1a1a1a'},{name:'Белый',hex:'#f5f5f5'},{name:'Серый',hex:'#6b7280'},{name:'Бежевый',hex:'#d4b896'},{name:'Зелёный',hex:'#22c55e'},{name:'Синий',hex:'#3b82f6'}];
+const BAND=[{id:1,title:'Shimomoto',tag:'Коллекция',sub:'Японский уличный стиль.',cat:'Shimomoto',color1:'#1a0533',color2:'#1a3355'}];
+
+let editProdId=null, pendLogo=null, pendProdImgs=[], pSizes=[], pColors=[], lcType='gradient', confCb=null, ordFilter='all', dragSrc=null;
+
+// Firebase data cache
+let _products=[], _orders=[], _cats=[...CATD], _sizes=[...SD], _colors=[...CD], _banners=[...BAND];
+
+// ===== FIREBASE DATA FUNCTIONS =====
+async function fbLoadAll(){
+  try {
+    _products = await window.fbGet('products');
+    _products.sort((a,b)=>(a.order??99)-(b.order??99));
+    _orders = await window.fbGet('orders');
+    const settings = await window.fbGet('settings');
+    settings.forEach(s=>{
+      if(s.id==='cats'&&s.value) _cats=s.value;
+      if(s.id==='sizes'&&s.value) _sizes=s.value;
+      if(s.id==='colors'&&s.value) _colors=s.value;
+      if(s.id==='banners'&&s.value) _banners=s.value;
+    });
+    // Realtime orders listener
+    db.collection('orders').onSnapshot(snap=>{
+      _orders=snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderDash();
+      if(document.getElementById('tab-crm').classList.contains('on')) renderOrders();
+    });
+    // Realtime support listener
+    db.collection('support').onSnapshot(snap=>{
+      const msgs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.date>b.date?1:-1);
+      localStorage.setItem('moonera_support_msgs',JSON.stringify(msgs));
+      chkSupNotif();
+      if(document.getElementById('tab-support').classList.contains('on')){
+        const area=document.getElementById('adminMsgsArea');
+        if(area){area.innerHTML=renderChatMsgs();scrollChatBottom();}
+      }
+    });
+  } catch(e){ console.warn('Firebase load error:', e); }
+}
+
+function gP(){return _products;}
+function sP(prods){
+  _products=prods;
+  // Save each product to Firebase
+  prods.forEach(p => window.safeSet('products', String(p.id), p).catch(console.warn));
+}
+function gO(){return _orders;}
+function sO(orders){
+  _orders=orders;
+  // Sync to Firebase
+  orders.forEach(o => window.safeSet('orders', String(o.id), o).catch(console.warn));
+}
+function gCats(){return _cats;}
+function sCats(c){_cats=c; window.safeSet('settings','cats',{value:c}).catch(console.warn);}
+function gSizes(){return _sizes;}
+function gColors(){return _colors;}
+function gBans(){return _banners;}
+function sBans(b){_banners=b; window.safeSet('settings','banners',{value:b}).catch(console.warn);}
+function fmt(p){return Number(p).toLocaleString('ru-RU');}
+function fmtDate(iso){const d=new Date(iso);return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});}
+function getPass(){return localStorage.getItem('moonera_admin_pass')||DEF_PASS;}
+
+// ===== LOGIN =====
+function togglePass(){const i=document.getElementById('lpass'),e=document.getElementById('passEye');i.type=i.type==='password'?'text':'password';e.textContent=i.type==='password'?'👁':'🙈';}
+function doLogin(){const v=document.getElementById('lpass').value;if(v===getPass()){document.getElementById('loginScreen').style.display='none';document.getElementById('admLayout').classList.add('on');initAdm();}else{document.getElementById('lerr').classList.add('on');document.getElementById('lpass').value='';}}
+function doLogout(){document.getElementById('loginScreen').style.display='flex';document.getElementById('admLayout').classList.remove('on');document.getElementById('lpass').value='';document.getElementById('lerr').classList.remove('on');}
+function toggleTheme(){const h=document.documentElement,b=document.getElementById('themeBtn');if(h.dataset.theme==='dark'){h.dataset.theme='light';b.textContent='☀️';}else{h.dataset.theme='dark';b.textContent='🌙';}}
+function initAdm(){
+  loadLogos();chkSupNotif();
+  if(window._firebaseReady){
+    fbLoadAll().then(()=>{ swTab('dash',document.querySelector('.tab.on')); });
+  } else {
+    window.addEventListener('firebaseReady', ()=>{ fbLoadAll().then(()=>{ swTab('dash',document.querySelector('.tab.on')); }); });
+    swTab('dash',document.querySelector('.tab.on'));
+  }
+}
+function loadLogos(){const d=localStorage.getItem('moonera_logo');['loginIco','admIco'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=d?`<img src="${d}">`:'M';});const lp=document.getElementById('lprev');if(lp)lp.innerHTML=d?`<img src="${d}">`:'M';}
+
+// ===== TABS =====
+function swTab(name,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));
+  if(el)el.classList.add('on');
+  document.getElementById('tab-'+name).classList.add('on');
+  if(name==='dash')renderDash();
+  if(name==='crm'){ordFilter='all';document.querySelectorAll('.ord-tab').forEach((t,i)=>{t.classList.toggle('on',i===0)});renderOrders();}
+  if(name==='prods')renderProds();
+  if(name==='support')renderSupport();
+  if(name==='set')renderSettings();
+}
+
+// ===== SUPPORT CHAT =====
+let supActiveClient = null;
+
+function gSupMsgs(){ return JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]'); }
+function sSupMsgs(m){ localStorage.setItem('moonera_support_msgs',JSON.stringify(m)); }
+
+function chkSupNotif(){
+  const msgs=gSupMsgs();
+  const hasNew=msgs.some(m=>m.from==='user'&&!m.adminRead);
+  const dot=document.getElementById('sup-notif-dot');
+  if(dot) dot.style.display=hasNew?'inline-block':'none';
+}
+
+function renderSupport(){
+  chkSupNotif();
+  const msgs=gSupMsgs();
+  // Group by client identifier (use phone if available, else use first user message date as key)
+  // Each unique conversation — we treat all messages as one thread for now
+  // since support is one channel. Show the full chat.
+  const el=document.getElementById('sup-clients');
+  el.innerHTML='';
+  const chatEl=document.getElementById('sup-chat');
+  chatEl.style.display='none';
+
+  const userMsgs=msgs.filter(m=>m.from==='user');
+  if(!userMsgs.length){
+    el.innerHTML='<div style="text-align:center;padding:40px;color:var(--tx2)"><div style="font-size:48px;margin-bottom:12px">💬</div>Сообщений пока нет</div>';
+    return;
+  }
+
+  // Get client info from profile if available
+  const clientPhoto=localStorage.getItem('moonera_client_photo');
+  const profile=JSON.parse(localStorage.getItem('moonera_profile')||'null');
+  const lastMsg=userMsgs[userMsgs.length-1];
+  const hasUnread=msgs.some(m=>m.from==='user'&&!m.adminRead);
+
+  el.innerHTML=`
+    <div class="sup-client-card" onclick="openSupChat()">
+      <div class="sup-client-avatar">
+        ${clientPhoto?`<img src="${clientPhoto}">`:(profile?profile.name[0].toUpperCase():'?')}
+        ${hasUnread?'<span class="sup-unread-dot"></span>':''}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px">${profile?profile.name:'Клиент'}</div>
+        <div style="font-size:12px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${lastMsg.text}</div>
+      </div>
+      <div style="font-size:10px;color:var(--tx2);flex-shrink:0">${new Date(lastMsg.date).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+}
+
+function openSupChat(){
+  const msgs=gSupMsgs();
+  msgs.forEach(m=>{ if(m.from==='user') m.adminRead=true; });
+  sSupMsgs(msgs);
+  chkSupNotif();
+
+  const clientPhoto=localStorage.getItem('moonera_client_photo');
+  const profile=JSON.parse(localStorage.getItem('moonera_profile')||'null');
+  const name=profile?profile.name:'Клиент';
+  const phone=profile?profile.phone:'';
+
+  document.getElementById('sup-clients').style.display='none';
+  const chatEl=document.getElementById('sup-chat');
+  chatEl.style.display='block';
+  chatEl.innerHTML=`
+    <div style="display:flex;flex-direction:column;height:calc(100vh - 140px)">
+      <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--bd);margin-bottom:12px;flex-shrink:0">
+        <button onclick="closeSupChat()" style="width:38px;height:38px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx);flex-shrink:0">←</button>
+        <div style="width:42px;height:42px;border-radius:50%;background:var(--gbtn);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff">
+          ${clientPhoto?`<img src="${clientPhoto}" style="width:100%;height:100%;object-fit:cover">`:(name[0]||'?')}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">${name}</div>
+          ${phone?`<div style="font-size:11px;color:var(--tx2)">${phone}</div>`:''}
+        </div>
+      </div>
+      <div id="adminMsgsArea" style="flex:1;overflow-y:auto;scrollbar-width:none;padding-bottom:8px">${renderChatMsgs()}</div>
+      <div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--bd);flex-shrink:0">
+        <input class="fi" id="adminReplyInput" style="flex:1;margin:0;font-size:14px" placeholder="Написать ответ..." type="text" onkeydown="if(event.key==='Enter')sendAdminMsg()">
+        <button style="width:52px;height:50px;border-radius:14px;background:var(--gbtn);border:none;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0" onclick="sendAdminMsg()">→</button>
+      </div>
+    </div>`;
+  scrollChatBottom();
+}
+
+function closeSupChat(){
+  document.getElementById('sup-chat').style.display='none';
+  document.getElementById('sup-clients').style.display='block';
+  renderSupport();
+}
+
+function renderChatMsgs(){
+  const msgs=gSupMsgs();
+  if(!msgs.length) return '<div style="text-align:center;padding:20px;color:var(--tx2)">Нет сообщений</div>';
+  return msgs.map(m=>`
+    <div class="smsg ${m.from}" style="margin-bottom:10px;overflow:hidden">
+      <div class="smsg-bubble">${m.text}</div>
+      <div class="smsg-time">${new Date(m.date).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`).join('');
+}
+
+function sendAdminMsg(){
+  const el=document.getElementById('adminReplyInput');
+  const text=el.value.trim(); if(!text) return;
+  const msg={from:'admin',text,date:new Date().toISOString()};
+  // Save to Firebase
+  window.safeAdd('support', msg).catch(console.warn);
+  // Also update local cache optimistically
+  const msgs=gSupMsgs();
+  msgs.push(msg);
+  sSupMsgs(msgs);
+  el.value='';
+  const area=document.getElementById('adminMsgsArea');
+  if(area){ area.innerHTML=renderChatMsgs(); scrollChatBottom(); }
+  toast('Отправлено ✓');
+}
+
+function scrollChatBottom(){
+  setTimeout(()=>{const a=document.getElementById('adminMsgsArea');if(a)a.scrollTop=a.scrollHeight;},50);
+}
+
+// Keep old sendAdminReply for backward compat — handled in renderSupport now
+
+// ===== DASHBOARD =====
+function renderDash(){
+  const orders=gO(),prods=gP();
+  // Revenue = only Выполнен orders
+  const rev=orders.filter(o=>o.status==='Выполнен').reduce((s,o)=>s+(o.total||0),0);
+  const active=orders.filter(o=>o.status==='В обработке'||o.status==='Передан курьеру').length;
+  document.getElementById('st-ord').textContent=orders.length;
+  document.getElementById('st-rev').textContent=fmt(rev);
+  document.getElementById('st-act').textContent=active;
+  document.getElementById('st-pro').textContent=prods.length;
+  const last=[...orders].reverse().slice(0,3);
+  const el=document.getElementById('dash-orders');
+  el.innerHTML=last.length?last.map(o=>oMiniCard(o)).join(''):'<div style="text-align:center;padding:20px;color:var(--tx2)">Заказов пока нет</div>';
+  chkSupNotif();
+}
+function sendAdminReply(i){
+  const el=document.getElementById(`rep-${i}`);const text=el.value.trim();if(!text)return;
+  const msgs=JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]');
+  // mark user msgs as read
+  msgs.filter(m=>m.from==='user').forEach(m=>m.adminRead=true);
+  msgs.push({from:'admin',text,date:new Date().toISOString()});
+  localStorage.setItem('moonera_support_msgs',JSON.stringify(msgs));
+  toast('Ответ отправлен ✓'); renderDash();
+}
+function oMiniCard(o){
+  return `<div style="background:var(--sf);border-radius:14px;padding:12px;margin-bottom:8px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div><div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700">#${String(o.id).slice(-6)} · ${o.name}</div><div style="font-size:11px;color:var(--tx2)">${fmtDate(o.date)}</div></div>
+    <span class="sbdg ${statCls(o.status)}">${o.status}</span>
+  </div>`;
+}
+
+// ===== ORDERS =====
+function setOrdFilter(f,el){ordFilter=f;document.querySelectorAll('.ord-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderOrders();}
+function renderOrders(){
+  let orders=[...gO()].reverse();
+  if(ordFilter!=='all') orders=orders.filter(o=>o.status===ordFilter);
+  const el=document.getElementById('ordersEl');
+  if(!orders.length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--tx2)">Заказов нет</div>';return;}
+  el.innerHTML=orders.map(o=>`
+    <div class="ocard">
+      <div class="ocard-top">
+        <div><div class="ocard-id">#${String(o.id).slice(-6)}</div><div class="ocard-date">${fmtDate(o.date)}</div></div>
+        <span class="sbdg ${statCls(o.status)}">${o.status}</span>
+      </div>
+      <div class="ocard-body">
+        <div class="ocard-client">
+          <div class="ocard-client-row">
+            <div class="ocard-avatar">${o.name[0].toUpperCase()}</div>
+            <div class="ocard-name">${o.name}</div>
+          </div>
+          <div class="ocard-meta">📞 ${o.phone}${o.address?'<br>📍 '+o.address:''}${o.tg?'<br>✈️ '+o.tg:''}</div>
+          <div class="ocard-items-title">Товары:</div>
+          ${(o.items||[]).map(it=>`<div class="ocard-item">• ${it.name} <span style="color:var(--tx2)">×${it.qty} · ${it.size}</span></div>`).join('')}
+          <div class="ocard-total">${fmt(o.total)} сум</div>
+        </div>
+      </div>
+      <div class="ocard-actions">
+        <select class="stat-select" onchange="chStat('${o.id}',this.value)">
+          ${STAT_OPTS.map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}
+        </select>
+        <button class="rbtn del" onclick="delOrder('${o.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function chStat(id,status){
+  const orders=gO();const o=orders.find(x=>String(x.id)===String(id));
+  if(o){
+    o.status=status;
+    sO(orders);
+    // Update directly in Firebase
+    window.safeUpdate('orders',String(id),{status}).catch(console.warn);
+    toast('Статус: '+status);renderOrders();renderDash();
+  }
+}
+function delOrder(id){
+  showConf('🗑','Удалить заказ?','',()=>{
+    _orders=gO().filter(o=>String(o.id)!==String(id));
+    window.safeDel('orders',String(id)).catch(console.warn);
+    renderOrders();renderDash();toast('Заказ удалён');
+  });
+}
+function clearOrders(){
+  showConf('⚠️','Очистить все заказы?','Удалятся все заказы',()=>{
+    const all=gO();
+    all.forEach(o=>window.safeDel('orders',String(o.id)).catch(console.warn));
+    _orders=[];
+    renderOrders();renderDash();toast('Очищено');
+  });
+}
+
+// ===== PRODUCTS (grid view with drag & drop) =====
+function renderProds(q=''){
+  let prods=[...gP()].sort((a,b)=>(a.order??99)-(b.order??99));
+  if(q){const ql=q.toLowerCase();prods=prods.filter(p=>p.name.toLowerCase().includes(ql));}
+  const el=document.getElementById('prodGridEl');
+  if(!prods.length){el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--tx2)">Товаров нет</div>';return;}
+  el.innerHTML=prods.map((p,i)=>{
+    const mainImg=(p.images&&p.images.length)?p.images[0]:p.image;
+    const imgCount=(p.images&&p.images.length>1)?p.images.length:0;
+    return `
+    <div class="apcard" draggable="true" data-id="${p.id}" ondragstart="dStart(event,${p.id})" ondragover="dOver(event)" ondrop="dDrop(event,${p.id})" ondragend="dEnd()">
+      <div class="ap-img">${mainImg?`<img src="${mainImg}" alt="${p.name}">`:(p.emoji||'👕')}</div>
+      <div class="ap-info">
+        <div class="ap-name">${p.name}</div>
+        <div class="ap-cat">${p.cat}${p.badge?' · '+p.badge:''}</div>
+        <div class="ap-price">${fmt(p.price)} сум</div>
+        ${imgCount>1?`<div style="font-size:10px;color:var(--tx2);margin-top:2px">📷 ${imgCount} фото</div>`:''}
+      </div>
+      <div class="ap-actions">
+        <button class="rbtn" onclick="openProdModal(${p.id})" title="Редактировать">✏️</button>
+        <button class="rbtn del" onclick="askDelProd(${p.id})" title="Удалить">🗑</button>
+      </div>
+    </div>`;}).join('');
+}
+// DRAG & DROP
+function dStart(e,id){dragSrc=id;setTimeout(()=>{document.querySelector(`[data-id="${id}"]`).classList.add('dragging');},0);}
+function dOver(e){e.preventDefault();const card=e.currentTarget;if(card.dataset.id!=dragSrc)card.classList.add('drag-over');}
+function dDrop(e,targetId){
+  e.preventDefault();
+  document.querySelectorAll('.apcard').forEach(c=>c.classList.remove('drag-over'));
+  if(dragSrc===targetId)return;
+  const prods=gP().sort((a,b)=>(a.order??99)-(b.order??99));
+  const si=prods.findIndex(p=>p.id===dragSrc);
+  const ti=prods.findIndex(p=>p.id===targetId);
+  if(si<0||ti<0)return;
+  const moved=prods.splice(si,1)[0];
+  prods.splice(ti,0,moved);
+  prods.forEach((p,i)=>p.order=i);
+  sP(prods);renderProds();
+}
+function dEnd(){document.querySelectorAll('.apcard').forEach(c=>{c.classList.remove('dragging');c.classList.remove('drag-over');});}
+
+// ===== ADD CHOICE =====
+function openAddChoice(){
+  const bans=gBans();
+  document.getElementById('collChoiceList').innerHTML=bans.map(b=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--sf2);border-radius:14px;margin-bottom:8px;cursor:pointer;border:1px solid var(--bd)" onclick="openProdModal(null,'${b.cat}');closeChoice()">
+      <div style="width:36px;height:28px;border-radius:8px;background:linear-gradient(135deg,${b.color1},${b.color2});flex-shrink:0"></div>
+      <div><div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700">${b.title}</div><div style="font-size:11px;color:var(--tx2)">Добавить в эту коллекцию</div></div>
+    </div>`).join('');
+  document.getElementById('choiceOv').classList.add('on');document.getElementById('choiceSh').classList.add('on');
+}
+function closeChoice(){document.getElementById('choiceOv').classList.remove('on');document.getElementById('choiceSh').classList.remove('on');}
+function createNewColl(){
+  const title=document.getElementById('newCollName').value.trim();
+  const cat=document.getElementById('newCollCat').value.trim();
+  if(!title||!cat){toast('Заполни название и категорию');return;}
+  const bans=gBans();
+  bans.push({id:Date.now(),title,tag:'Коллекция',sub:document.getElementById('newCollSub').value.trim(),cat,color1:document.getElementById('newCollC1').value,color2:document.getElementById('newCollC2').value});
+  sBans(bans);
+  // also add to cats
+  const cats=gCats(); if(!cats.includes(cat)){cats.push(cat);sCats(cats);}
+  ['newCollName','newCollCat','newCollSub'].forEach(id=>document.getElementById(id).value='');
+  toast('Коллекция создана ✓'); closeChoice();
+}
+
+// ===== PRODUCT MODAL =====
+function openProdModal(id,presetCat){
+  editProdId=id; pendProdImgs=[];
+  const cats=gCats();
+  const catSel=document.getElementById('pcat');
+  catSel.innerHTML=cats.map(c=>`<option>${c}</option>`).join('');
+  if(id){
+    const p=gP().find(x=>x.id===id);if(!p)return;
+    document.getElementById('prodMTitle').textContent='Редактировать товар';
+    document.getElementById('pn').value=p.name;
+    document.getElementById('pp').value=p.price;
+    document.getElementById('pb').value=p.badge||'';
+    document.getElementById('pd').value=p.desc||'';
+    document.getElementById('porder').value=p.order??0;
+    catSel.value=p.cat;
+    pSizes=[...(p.sizes||gSizes())];pColors=[...(p.colors||gColors())];
+    // Load existing images
+    const existing = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+    pendProdImgs = [...existing];
+    renderImgPreviews();
+  } else {
+    document.getElementById('prodMTitle').textContent='Новый товар';
+    ['pn','pp','pb','pd'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('porder').value='0';
+    pendProdImgs=[];
+    renderImgPreviews();
+    pSizes=[...gSizes()];pColors=[...gColors()];
+    if(presetCat&&presetCat!=='new')catSel.value=presetCat;
+  }
+  renderPSizes();renderPColors();
+  document.getElementById('prodMov').classList.add('on');document.getElementById('prodMsh').classList.add('on');
+}
+function closeProdModal(){document.getElementById('prodMov').classList.remove('on');document.getElementById('prodMsh').classList.remove('on');}
+function toggleAddCat(){const el=document.getElementById('addCatBox');el.style.display=el.style.display==='none'?'block':'none';}
+function addCatInline(){
+  const v=document.getElementById('newCatVal').value.trim();if(!v)return;
+  const cats=gCats();if(!cats.includes(v))cats.push(v);sCats(cats);
+  const sel=document.getElementById('pcat');sel.innerHTML=cats.map(c=>`<option>${c}</option>`).join('');sel.value=v;
+  document.getElementById('newCatVal').value='';document.getElementById('addCatBox').style.display='none';toast('Категория добавлена ✓');
+}
+function handleProdImgs(e){
+  const files=[...e.target.files];
+  if(!files.length) return;
+  const remaining = 5 - pendProdImgs.length;
+  const toLoad = files.slice(0, remaining);
+  let loaded=0;
+  toLoad.forEach(f=>{
+    const r=new FileReader();
+    r.onload=ev=>{
+      pendProdImgs.push(ev.target.result);
+      loaded++;
+      if(loaded===toLoad.length) renderImgPreviews();
+    };
+    r.readAsDataURL(f);
+  });
+  if(files.length > remaining) toast(`Максимум 5 фото. Добавлено ${remaining}`);
+}
+
+function renderImgPreviews(){
+  const row=document.getElementById('imgPreviewRow');
+  if(!row) return;
+  row.innerHTML=pendProdImgs.map((src,i)=>`
+    <div style="position:relative;flex-shrink:0">
+      <img src="${src}" style="width:70px;height:88px;object-fit:cover;border-radius:12px;display:block;border:2px solid ${i===0?'var(--g1)':'var(--bd)'}">
+      ${i===0?'<div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:#fff;background:var(--g1);padding:1px 6px;border-radius:4px">Главное</div>':''}
+      <button onclick="removeImg(${i})" style="position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+    </div>`).join('');
+}
+
+function removeImg(i){
+  pendProdImgs.splice(i,1);
+  renderImgPreviews();
+}
+
+// Keep old handler for backward compat
+function handleProdImg(e){ handleProdImgs(e); }
+function renderPSizes(){document.getElementById('pSizeChips').innerHTML=pSizes.map((s,i)=>`<div class="pschip">${s}<button onclick="rmPS(${i})">✕</button></div>`).join('')||'<span style="font-size:12px;color:var(--tx2)">Нет</span>';}
+function addPS(){const v=document.getElementById('psnew').value.trim().toUpperCase();if(!v)return;if(!pSizes.includes(v))pSizes.push(v);document.getElementById('psnew').value='';renderPSizes();}
+function rmPS(i){pSizes.splice(i,1);renderPSizes();}
+function renderPColors(){document.getElementById('pColorChips').innerHTML=pColors.map((c,i)=>`<div class="pcchip"><div class="ccdot" style="background:${c.hex}"></div>${c.name}<button onclick="rmPC(${i})">✕</button></div>`).join('')||'<span style="font-size:12px;color:var(--tx2)">Нет</span>';}
+function addPC(){const n=document.getElementById('pcname').value.trim(),h=document.getElementById('pchex').value;if(!n){toast('Введи название');return;}pColors.push({name:n,hex:h});document.getElementById('pcname').value='';renderPColors();}
+function rmPC(i){pColors.splice(i,1);renderPColors();}
+function saveProd(){
+  const name=document.getElementById('pn').value.trim();
+  const price=parseInt(document.getElementById('pp').value);
+  const cat=document.getElementById('pcat').value;
+  if(!name||!price){toast('Заполни название и цену!');return;}
+  const prods=gP();
+  if(editProdId){
+    const idx=prods.findIndex(x=>x.id===editProdId);
+    if(idx!==-1){
+      prods[idx]={...prods[idx],name,price,cat,badge:document.getElementById('pb').value.trim(),desc:document.getElementById('pd').value.trim(),order:parseInt(document.getElementById('porder').value)||0,sizes:pSizes,colors:pColors,emoji:EMOJIS[cat]||'👕'};
+      if(pendProdImgs.length){prods[idx].images=pendProdImgs;prods[idx].image=pendProdImgs[0];}
+      window.safeSet('products',String(editProdId),prods[idx]).catch(console.warn);
+    }
+    toast('Товар обновлён ✓');
+  } else {
+    const newP={id:Date.now(),name,price,cat,badge:document.getElementById('pb').value.trim(),desc:document.getElementById('pd').value.trim(),order:0,emoji:EMOJIS[cat]||'👕',image:pendProdImgs[0]||null,images:pendProdImgs.length?pendProdImgs:[],sizes:pSizes,colors:pColors};
+    prods.unshift(newP);
+    window.safeSet('products',String(newP.id),newP).catch(console.warn);
+    toast('Товар добавлен ✓');
+  }
+  _products=prods;closeProdModal();renderProds();
+}
+function askDelProd(id){
+  showConf('🗑','Удалить товар?','Это нельзя отменить',()=>{
+    _products=gP().filter(p=>p.id!==id);
+    window.safeDel('products',String(id)).catch(console.warn);
+    closeConf();renderProds();toast('Удалён');
+  });
+}
+
+// ===== SETTINGS =====
+let pendLo=null;
+function renderSettings(){loadLogos();loadBannerFields();loadLCFields();renderCollBanList();renderRevList();}
+function handleLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{pendLo=ev.target.result;document.getElementById('lprev').innerHTML=`<img src="${pendLo}">`;toast('Загружен — нажми Сохранить');};r.readAsDataURL(f);}
+function saveLogo(){if(!pendLo){toast('Сначала выбери файл');return;}localStorage.setItem('moonera_logo',pendLo);window.safeSet('settings','visuals_logo',{logo:pendLo}).catch(console.warn);loadLogos();toast('Логотип сохранён ✓');pendLo=null;}
+function loadBannerFields(){
+  const d=JSON.parse(localStorage.getItem('moonera_banner')||'null');
+  document.getElementById('bt').value=d?.tag||'✦ Новая коллекция';
+  document.getElementById('bt1').value=d?.title1||'Streetwear';
+  document.getElementById('bt2').value=d?.title2||'нового уровня';
+  document.getElementById('bsub').value=d?.sub||'Уникальные дропы · Ограниченные серии';
+  document.getElementById('bc1').value=d?.color1||'#4ade80';
+  document.getElementById('bc2').value=d?.color2||'#16a34a';
+  updBPrev();
+  ['bt','bt1','bt2','bsub','bc1','bc2'].forEach(id=>document.getElementById(id).addEventListener('input',updBPrev));
+}
+function updBPrev(){
+  const c1=document.getElementById('bc1').value,c2=document.getElementById('bc2').value;
+  document.getElementById('bprev').style.background=`linear-gradient(135deg,${c1},${c2})`;
+  document.getElementById('bp-tag').textContent=document.getElementById('bt').value;
+  document.getElementById('bp-ttl').textContent=document.getElementById('bt1').value+'\n'+document.getElementById('bt2').value;
+  document.getElementById('bp-sub').textContent=document.getElementById('bsub').value;
+}
+function saveBanner(){const d={tag:document.getElementById('bt').value,title1:document.getElementById('bt1').value,title2:document.getElementById('bt2').value,sub:document.getElementById('bsub').value,color1:document.getElementById('bc1').value,color2:document.getElementById('bc2').value};localStorage.setItem('moonera_banner',JSON.stringify(d));window.safeSet('settings','visuals_banner',{banner:d}).catch(console.warn);toast('Баннер сохранён ✓');}
+function loadLCFields(){const d=JSON.parse(localStorage.getItem('moonera_logo_color')||'null');if(d){lcType=d.type||'gradient';document.getElementById('lc1').value=d.color1||'#4ade80';document.getElementById('lc2').value=d.color2||'#16a34a';document.getElementById('lcs').value=d.solid||'#4ade80';applyLCType();}updLCPrev();}
+function setCType(t){lcType=t;applyLCType();updLCPrev();}
+function applyLCType(){const g=lcType==='gradient';document.getElementById('grad-flds').style.display=g?'flex':'none';document.getElementById('solid-fld').style.display=g?'none':'block';document.getElementById('ctype-grad').classList.toggle('on',g);document.getElementById('ctype-solid').classList.toggle('on',!g);}
+function updLCPrev(){const el=document.getElementById('lc-prev');if(lcType==='gradient'){const c1=document.getElementById('lc1').value,c2=document.getElementById('lc2').value;el.style.background=`linear-gradient(135deg,${c1},${c2})`;el.style.webkitBackgroundClip='text';el.style.webkitTextFillColor='transparent';el.style.backgroundClip='text';}else{const c=document.getElementById('lcs').value;el.style.background='none';el.style.webkitTextFillColor=c;el.style.color=c;}}
+function saveLogoColor(){const d={type:lcType,color1:document.getElementById('lc1').value,color2:document.getElementById('lc2').value,solid:document.getElementById('lcs').value};localStorage.setItem('moonera_logo_color',JSON.stringify(d));window.safeSet('settings','visuals_color',{logoColor:d}).catch(console.warn);toast('Цвет сохранён ✓');}
+function renderCollBanList(){const bans=gBans();const el=document.getElementById('collBanList');el.innerHTML=bans.length?bans.map((b,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--sf2);border-radius:14px;margin-bottom:8px;border:1px solid var(--bd)"><div style="width:44px;height:32px;border-radius:8px;background:linear-gradient(135deg,${b.color1},${b.color2});flex-shrink:0"></div><div style="flex:1;min-width:0"><div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700">${b.title}</div><div style="font-size:11px;color:var(--tx2)">${b.cat}</div></div><button class="rbtn del" onclick="delCollBan(${i})">🗑</button></div>`).join(''):'<div style="font-size:13px;color:var(--tx2)">Нет баннеров</div>';}
+function addCollBan(){const title=document.getElementById('cb-title').value.trim(),cat=document.getElementById('cb-cat').value.trim();if(!title||!cat){toast('Заполни название и категорию');return;}const bans=gBans();bans.push({id:Date.now(),title,tag:document.getElementById('cb-tag').value.trim()||'Коллекция',sub:document.getElementById('cb-sub').value.trim(),cat,color1:document.getElementById('cb-c1').value,color2:document.getElementById('cb-c2').value});sBans(bans);renderCollBanList();['cb-title','cb-tag','cb-sub','cb-cat'].forEach(id=>document.getElementById(id).value='');toast('Баннер добавлен ✓');}
+function delCollBan(i){const bans=gBans();bans.splice(i,1);sBans(bans);renderCollBanList();toast('Баннер удалён');}
+function renderRevList(){const revs=JSON.parse(localStorage.getItem('moonera_reviews')||'[]');const el=document.getElementById('revListEl');if(!revs.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--tx2);font-size:13px">Нет отзывов</div>';return;}el.innerHTML=[...revs].reverse().map(r=>`<div style="background:var(--sf2);border-radius:14px;padding:12px;margin-bottom:8px;border:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:16px">${'⭐'.repeat(r.rating)}</span><span style="font-size:11px;color:var(--tx2)">${new Date(r.date).toLocaleDateString('ru-RU')}</span></div>${r.text?`<div style="font-size:13px;line-height:1.5">${r.text}</div>`:''}</div>`).join('');}
+function changePass(){const op=document.getElementById('op').value,np=document.getElementById('np').value,np2=document.getElementById('np2').value;if(op!==getPass()){toast('Неверный текущий пароль');return;}if(np.length<4){toast('Минимум 4 символа');return;}if(np!==np2){toast('Пароли не совпадают');return;}localStorage.setItem('moonera_admin_pass',np);['op','np','np2'].forEach(id=>document.getElementById(id).value='');toast('Пароль изменён ✓');}
+
+// ===== CONFIRM =====
+function showConf(icon,title,sub,cb){document.getElementById('confIcon').textContent=icon;document.getElementById('confTitle').textContent=title;document.getElementById('confSub').textContent=sub;confCb=cb;document.getElementById('confOv').classList.add('on');document.getElementById('confOkBtn').onclick=()=>{confCb&&confCb();closeConf();};}
+function closeConf(){document.getElementById('confOv').classList.remove('on');confCb=null;}
+
+// ===== TOAST =====
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+loadLogos();
+</script>
+</body>
+</html>

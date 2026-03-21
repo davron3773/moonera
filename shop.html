@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" id="metaTheme" content="#141414">
+<title>MOONERA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#4ade80;--g2:#16a34a;--grad:linear-gradient(135deg,#4ade80 0%,#22c55e 50%,#16a34a 100%);--gbtn:linear-gradient(135deg,#4ade80,#16a34a);--rc:20px;--rb:50px;--tr:0.3s cubic-bezier(0.4,0,0.2,1)}
+[data-theme="dark"]{--bg:#141414;--bg3:#2a2a2a;--sf:#1e1e1e;--sf2:#2a2a2a;--bd:rgba(255,255,255,0.07);--tx:#f0f0f0;--tx2:#a0a0a0;--ov:rgba(20,20,20,0.95)}
+[data-theme="light"]{--bg:#f5f5f3;--bg3:#e0e0de;--sf:#ffffff;--sf2:#f0f0ee;--bd:rgba(0,0,0,0.08);--tx:#111111;--tx2:#666666;--ov:rgba(245,245,243,0.97)}
+/* Mobile fix — set background directly on html */
+html{background-color:#141414;transition:background-color var(--tr)}
+html[data-theme="light"]{background-color:#f5f5f3}
+html[data-theme="dark"]{background-color:#141414}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;min-height:100dvh;overflow-x:hidden;transition:background var(--tr),color var(--tr)}
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:100;background:var(--ov);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-img{width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#fff;overflow:hidden}
+.logo-img img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.logo-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.ibtn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:var(--tr);color:var(--tx);position:relative}
+.ibtn:active{transform:scale(0.92)}
+.cart-fab{position:fixed;bottom:24px;right:20px;z-index:150;width:56px;height:56px;border-radius:50%;background:var(--gbtn);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 24px rgba(74,222,128,0.5);transition:var(--tr)}
+.cart-fab:active{transform:scale(0.92)}
+.cbadge{position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;width:20px;height:20px;border-radius:50%;display:none;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.cbadge.on{display:flex}
+.ord-btn{width:40px;height:40px;border-radius:50%;background:var(--gbtn);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(74,222,128,0.4);animation:pg 2s infinite}
+.ord-btn.on{display:flex}
+@keyframes pg{0%,100%{box-shadow:0 4px 12px rgba(74,222,128,0.4)}50%{box-shadow:0 4px 22px rgba(74,222,128,0.75)}}
+.notif-dot{position:absolute;top:0;right:0;width:10px;height:10px;border-radius:50%;background:#ef4444;border:2px solid var(--bg);display:none}
+.notif-dot.on{display:block}
+
+/* PAGES */
+.page{display:none;padding-bottom:100px}
+.page.on{display:block}
+
+/* HERO */
+.hero{margin:16px;border-radius:var(--rc);background:var(--grad);padding:28px 24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.12)}
+.htag{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+.hero h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+.hero p{color:rgba(255,255,255,0.85);font-size:13px;position:relative;z-index:1}
+
+/* CATS */
+.sec-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin:20px 16px 12px;color:var(--tx)}
+.cats{display:flex;gap:8px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:8px 18px;border-radius:50px;border:1.5px solid var(--bd);background:var(--sf);color:var(--tx2);font-size:13px;font-weight:500;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.chip.on{background:var(--gbtn);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(74,222,128,0.3)}
+
+/* BANNERS */
+.bwrap{padding:0 16px;display:flex;flex-direction:column;gap:12px;margin:20px 0 4px}
+.bitem{border-radius:var(--rc);padding:20px;position:relative;overflow:hidden;cursor:pointer;transition:var(--tr)}
+.bitem:active{transform:scale(0.98)}
+.bitem::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.12),transparent)}
+
+/* PRODUCT GRID — 4:5 cards */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;margin-top:16px}
+.pcard{background:var(--sf);border-radius:var(--rc);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.15);border:1px solid var(--bd);cursor:pointer;transition:var(--tr)}
+.pcard:active{transform:scale(0.97)}
+.pimg{width:100%;aspect-ratio:4/5;background:var(--bg3);position:relative;overflow:hidden}
+.pimg-track{display:flex;width:100%;height:100%}
+.pimg-slide{min-width:100%;height:100%;flex-shrink:0;overflow:hidden}
+.pimg-slide img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.pimg-slide-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px;opacity:0.3}
+.pbadge{position:absolute;top:8px;left:8px;background:var(--gbtn);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:50px;text-transform:uppercase;z-index:3;pointer-events:none}
+.pimg-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3;pointer-events:none}
+.pimg-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5);transition:var(--tr)}
+.pimg-dot.on{background:#fff;width:14px;border-radius:3px}
+/* Arrow buttons on card */
+.parr{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,0.42);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;z-index:4;backdrop-filter:blur(3px);line-height:1}
+.parr:active{transform:translateY(-50%) scale(0.9)}
+.parr-l{left:6px}
+.parr-r{right:6px}
+/* Heart */
+.heart-btn{position:absolute;top:8px;right:8px;z-index:4;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,0.35);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;backdrop-filter:blur(3px)}
+.pinfo{padding:12px}
+.pname{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--tx);margin-bottom:4px;line-height:1.3}
+.pcat{font-size:11px;color:var(--tx2);margin-bottom:8px}
+.pbot{display:flex;align-items:center;justify-content:space-between}
+.pprice{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.abtn{width:30px;height:30px;border-radius:50%;background:var(--gbtn);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 3px 10px rgba(74,222,128,0.4);transition:var(--tr);line-height:1}
+.abtn:active{transform:scale(0.88)}
+.cctr{display:flex;align-items:center;gap:6px}
+.ccbtn{width:30px;height:30px;border-radius:50%;background:var(--gbtn);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 3px 10px rgba(74,222,128,0.4);transition:var(--tr);line-height:1}
+.ccbtn:active{transform:scale(0.88)}
+.ccnum{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;min-width:16px;text-align:center;color:var(--tx)}
+
+/* BOTTOM SHEET */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;opacity:0;pointer-events:none;transition:opacity var(--tr);backdrop-filter:blur(6px)}
+.ov.on{opacity:1;pointer-events:all}
+.sh{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-radius:24px 24px 0 0;z-index:201;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);max-height:92vh;display:flex;flex-direction:column}
+.sh.on{transform:translateY(0)}
+.shandle{width:40px;height:4px;background:var(--bd);border-radius:2px;margin:12px auto 0;flex-shrink:0}
+.shhdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.shtitle{font-family:'Syne',sans-serif;font-size:18px;font-weight:700}
+.shclose{width:32px;height:32px;border-radius:50%;background:var(--sf2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx)}
+.shbody{overflow-y:auto;flex:1;scrollbar-width:none}
+.shbody::-webkit-scrollbar{display:none}
+
+/* PRODUCT DETAIL — image INSIDE popup */
+.det-body{padding:16px 20px 0}
+.det-img-box{width:100%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.det-img-box img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.det-img-ph{font-size:60px;opacity:0.35}
+/* arrows in popup carousel */
+.det-arr{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.45);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;z-index:4;backdrop-filter:blur(3px);line-height:1}
+.det-arr:active{transform:translateY(-50%) scale(0.9)}
+.det-arr-l{left:8px}
+.det-arr-r{right:8px}
+.det-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3;pointer-events:none}
+.det-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5);transition:var(--tr)}
+.det-dot.on{background:#fff;width:14px;border-radius:3px}
+/* info below image */
+.det-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.det-price{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.det-cat{font-size:12px;color:var(--tx2)}
+.det-desc{font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:16px}
+.plabel{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px}
+.sch{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.sc{min-width:44px;height:44px;padding:0 10px;border-radius:12px;border:1.5px solid var(--bd);background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);color:var(--tx)}
+.sc.on{background:var(--gbtn);border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(74,222,128,0.35)}
+.cch{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.cc{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--tr);flex-shrink:0;position:relative}
+.cc.on{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--tx)}
+.cc .cc-tip{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--tx2);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.2s}
+.cc.on .cc-tip{opacity:1}
+.gbtnf{width:100%;padding:16px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(74,222,128,0.4);transition:var(--tr);margin-bottom:40px}
+.gbtnf:active{transform:scale(0.98)}
+
+/* CART */
+.citems{flex:1;overflow-y:auto;padding:12px 20px;scrollbar-width:none}
+.citems::-webkit-scrollbar{display:none}
+.cempty{text-align:center;padding:40px 20px;color:var(--tx2);font-size:14px}
+.ci{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--bd)}
+.ci-img{width:60px;height:70px;border-radius:14px;background:var(--bg3);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px}
+.ci-img img{width:100%;height:100%;object-fit:cover}
+.ci-info{flex:1}
+.ci-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:2px}
+.ci-size{font-size:11px;color:var(--tx2);margin-bottom:6px}
+.qctrl{display:flex;align-items:center;gap:10px}
+.qbtn{width:26px;height:26px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--tx);line-height:1}
+.qnum{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;min-width:20px;text-align:center}
+.ci-price{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0}
+.cfooter{padding:16px 20px 0;flex-shrink:0}
+.ctrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.ctlabel{font-size:14px;color:var(--tx2)}
+.ctval{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ORDER */
+.oscroll{overflow-y:auto;flex:1;scrollbar-width:none;padding-bottom:40px}
+.oscroll::-webkit-scrollbar{display:none}
+.fg{padding:0 20px;margin-bottom:14px}
+.fl{font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;display:block}
+.fi{width:100%;padding:14px 16px;border-radius:16px;border:1.5px solid var(--bd);background:var(--sf2);color:var(--tx);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color var(--tr)}
+.fi:focus{border-color:var(--g1)}
+.fi::placeholder{color:var(--tx2)}
+.fi.err{border-color:#ef4444}
+.sbtn{width:calc(100% - 40px);margin:8px 20px 0;padding:16px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(74,222,128,0.4);transition:var(--tr)}
+.sbtn:active{transform:scale(0.98)}
+.succ{display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+.succ.on{display:flex}
+.succ-icon{width:80px;height:80px;border-radius:50%;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:20px;box-shadow:0 8px 24px rgba(74,222,128,0.4)}
+.succ-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:8px}
+.succ-sub{font-size:14px;color:var(--tx2);line-height:1.6;margin-bottom:24px}
+.succ-btn{padding:14px 40px;border-radius:var(--rb);background:var(--gbtn);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+
+/* ORDER STATUS */
+.osteps{padding:16px 20px}
+.ostep{display:flex;gap:14px;align-items:flex-start;padding:12px 0;position:relative}
+.ostep:not(:last-child)::after{content:'';position:absolute;left:19px;top:44px;width:2px;height:calc(100% - 12px);background:var(--bd)}
+.ostep.done::after,.ostep.active::after{background:var(--g1)}
+.sico{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:2px solid var(--bd);background:var(--sf2);position:relative;z-index:1;transition:var(--tr)}
+.ostep.done .sico{background:var(--gbtn);border-color:transparent;box-shadow:0 3px 10px rgba(74,222,128,0.4)}
+.ostep.active .sico{border-color:var(--g1);box-shadow:0 0 0 4px rgba(74,222,128,0.15);animation:pg 2s infinite}
+.ostep.pend .sico{opacity:0.3}
+.ostep.pend .stitle{color:var(--tx2)}
+.sinfo{flex:1;padding-top:6px}
+.stitle{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px}
+.ssub{font-size:12px;color:var(--tx2)}
+
+/* REVIEW */
+.revsec{margin:0 20px 24px;background:var(--sf2);border-radius:18px;padding:16px;border:1px solid var(--bd)}
+.revtitle{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px}
+.stars{display:flex;gap:8px;margin-bottom:12px}
+.star{font-size:30px;cursor:pointer;transition:transform 0.2s;filter:grayscale(1);line-height:1}
+.star.on{filter:none;transform:scale(1.1)}
+.revta{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--bd);background:var(--sf);color:var(--tx);font-size:13px;font-family:'Inter',sans-serif;outline:none;resize:none;min-height:80px;transition:border-color var(--tr);margin-bottom:12px;display:block}
+.revta:focus{border-color:var(--g1)}
+
+/* PROFILE */
+.prof-header{display:flex;flex-direction:column;align-items:center;padding:28px 20px 20px;border-bottom:1px solid var(--bd)}
+.prof-avatar-wrap{position:relative;cursor:pointer;margin-bottom:12px}
+.prof-avatar-wrap input{position:absolute;inset:0;opacity:0;cursor:pointer;border-radius:50%}
+.prof-avatar{width:80px;height:80px;border-radius:50%;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:32px;color:#fff;overflow:hidden}
+.prof-avatar img{width:100%;height:100%;object-fit:cover}
+.prof-avatar-edit{position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:var(--gbtn);display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid var(--bg)}
+.prof-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:2px}
+.prof-phone{font-size:13px;color:var(--tx2)}
+.pmenu-item{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--bd);cursor:pointer;transition:var(--tr)}
+.pmenu-item:active{background:var(--sf2)}
+.pmenu-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
+.pmenu-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.pmenu-sub{font-size:12px;color:var(--tx2)}
+.prof-section{padding:16px 16px 0}
+.prof-sec-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px}
+.prof-empty{text-align:center;padding:24px;color:var(--tx2);font-size:13px}
+.prof-order-card{background:var(--sf);border-radius:16px;padding:14px;border:1px solid var(--bd);margin-bottom:10px;cursor:pointer}
+.prof-order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prof-order-id{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.stat-badge{padding:3px 10px;border-radius:50px;font-size:11px;font-weight:700;text-transform:uppercase}
+.stat-proc{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
+.stat-ship{background:rgba(99,102,241,0.15);color:#818cf8;border:1px solid rgba(99,102,241,0.3)}
+.stat-done{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.stat-cancel{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.prof-fav-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fav-card{background:var(--sf);border-radius:14px;overflow:hidden;border:1px solid var(--bd);cursor:pointer}
+.fav-img{width:100%;aspect-ratio:1;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:24px;overflow:hidden}
+.fav-img img{width:100%;height:100%;object-fit:cover}
+.fav-name{font-size:11px;font-weight:600;padding:6px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fav-price{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;padding:0 8px 4px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.my-rev-card{background:var(--sf);border-radius:16px;padding:14px;border:1px solid var(--bd);margin-bottom:10px}
+.sup-msg{font-size:13px;line-height:1.6;padding:10px 14px;border-radius:12px;margin-bottom:4px}
+.sup-msg.user{background:var(--gbtn);color:#fff;margin-left:20px;border-bottom-right-radius:4px}
+.sup-msg.admin{background:var(--sf2);color:var(--tx);margin-right:20px;border-bottom-left-radius:4px}
+.sup-time{font-size:10px;color:var(--tx2);margin-bottom:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gbtn);color:#fff;padding:12px 24px;border-radius:50px;font-size:13px;font-weight:600;z-index:999;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 6px 20px rgba(74,222,128,0.4);white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">
+    <div class="logo-img" id="logoImg">M</div>
+    <span class="logo-txt" id="logoTxt">MOONERA</span>
+  </div>
+  <div class="hdr-r">
+    <button class="ibtn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="ord-btn" id="ordBtn" onclick="openStatus()">📦</button>
+    <button class="ibtn" onclick="openProfile()" id="profBtn">👤<span class="notif-dot" id="profNotif"></span></button>
+  </div>
+</header>
+
+<!-- Floating cart -->
+<button class="cart-fab" onclick="openCart()">🛒<span class="cbadge" id="cbadge">0</span></button>
+
+<!-- PAGES -->
+<div class="page on" id="page-shop">
+  <div class="hero" id="heroBanner">
+    <div class="htag" id="heroTag">✦ Новая коллекция</div>
+    <h1 id="heroTitle">Streetwear<br>нового уровня</h1>
+    <p id="heroSub">Уникальные дропы · Ограниченные серии</p>
+  </div>
+  <div class="sec-title">Категории</div>
+  <div class="cats" id="catsEl"></div>
+  <div id="bannersEl"></div>
+  <div class="sec-title" id="prodTitle">Все товары</div>
+  <div class="grid" id="gridEl"></div>
+</div>
+<div class="page" id="page-profile"><div id="profContent"></div></div>
+
+<!-- PRODUCT DETAIL — image INSIDE bottom sheet -->
+<div class="ov" id="detOv" onclick="closeDet()"></div>
+<div class="sh" id="detSh">
+  <div class="shandle"></div>
+  <div class="shhdr">
+    <div class="shtitle" id="detName"></div>
+    <button class="shclose" onclick="closeDet()">✕</button>
+  </div>
+  <div class="shbody">
+    <div class="det-body">
+      <div id="detImgBox"></div>
+      <div class="det-row">
+        <span class="det-price" id="detPrice"></span>
+        <span class="det-cat" id="detCat"></span>
+      </div>
+      <div class="det-desc" id="detDesc"></div>
+      <div class="plabel">Размер</div>
+      <div class="sch" id="detSizes"></div>
+      <div class="plabel">Цвет</div>
+      <div class="cch" id="detColors"></div>
+      <button class="gbtnf" onclick="addFromDet()">Добавить в корзину</button>
+    </div>
+  </div>
+</div>
+
+<!-- CART -->
+<div class="ov" id="cartOv" onclick="closeCart()"></div>
+<div class="sh" id="cartSh">
+  <div class="shandle"></div>
+  <div class="shhdr"><div class="shtitle">🛒 Корзина</div><button class="shclose" onclick="closeCart()">✕</button></div>
+  <div class="citems" id="cartItems"></div>
+  <div class="cfooter" id="cartFooter" style="display:none">
+    <div class="ctrow"><span class="ctlabel">Итого</span><span class="ctval" id="cartTotal"></span></div>
+    <button class="gbtnf" style="margin-bottom:16px" onclick="openOrder()">Оформить заказ</button>
+  </div>
+</div>
+
+<!-- ORDER -->
+<div class="ov" id="orderOv"></div>
+<div class="sh" id="orderSh">
+  <div class="shandle"></div>
+  <div class="shhdr"><div class="shtitle">Оформление заказа</div><button class="shclose" onclick="closeOrder()">✕</button></div>
+  <div id="orderForm" class="oscroll">
+    <div style="height:12px"></div>
+    <div class="fg"><label class="fl">Имя *</label><input class="fi" id="fn" placeholder="Введи своё имя"></div>
+    <div class="fg"><label class="fl">Телефон *</label><input class="fi" id="fp" placeholder="+998 90 123 45 67" type="tel" maxlength="17" oninput="fmtP(this)" onkeydown="pdKD(event,this)"></div>
+    <div class="fg"><label class="fl">Адрес *</label><input class="fi" id="fa" placeholder="Город, улица, дом"></div>
+    <div class="fg"><label class="fl">Telegram (необязательно)</label><input class="fi" id="ftg" placeholder="@username"></div>
+    <div class="fg"><label class="fl">Итого</label>
+      <div style="padding:14px 16px;border-radius:16px;background:var(--sf2);border:1.5px solid var(--bd)">
+        <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="orderTotal"></span>
+      </div>
+    </div>
+    <button class="sbtn" onclick="submitOrder()">Подтвердить заказ ✓</button>
+  </div>
+  <div class="succ" id="succEl">
+    <div class="succ-icon">✓</div>
+    <div class="succ-title">Заказ принят!</div>
+    <div class="succ-sub">Следи за статусом по иконке 📦 вверху.</div>
+    <button class="succ-btn" onclick="closeSucc()">Отлично!</button>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div class="ov" id="statOv" onclick="closeStat()"></div>
+<div class="sh" id="statSh">
+  <div class="shandle"></div>
+  <div class="shhdr"><div class="shtitle">📦 Мой заказ</div><button class="shclose" onclick="closeStat()">✕</button></div>
+  <div class="shbody">
+    <div id="statInfo" style="padding:12px 20px 0;font-size:13px;color:var(--tx2)"></div>
+    <div class="osteps" id="statSteps"></div>
+    <div class="revsec" id="revSec" style="display:none">
+      <div class="revtitle">⭐ Оцените заказ</div>
+      <div id="revForm">
+        <div class="stars"><span class="star" onclick="setR(1)">⭐</span><span class="star" onclick="setR(2)">⭐</span><span class="star" onclick="setR(3)">⭐</span><span class="star" onclick="setR(4)">⭐</span><span class="star" onclick="setR(5)">⭐</span></div>
+        <textarea class="revta" id="revText" placeholder="Напишите комментарий..."></textarea>
+        <button class="gbtnf" style="margin-bottom:0" onclick="submitRev()">Отправить отзыв</button>
+      </div>
+      <div id="revDone" style="display:none;text-align:center;padding:16px 0"><div style="font-size:40px;margin-bottom:8px">🙏</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px">Спасибо за отзыв!</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK — compat version -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2ymxk6xYOHlNixe3AF_KFn_v9r58OQbw",
+  authDomain: "moonera-dc684.firebaseapp.com",
+  projectId: "moonera-dc684",
+  storageBucket: "moonera-dc684.firebasestorage.app",
+  messagingSenderId: "284650695736",
+  appId: "1:284650695736:web:98000b87af022be9f4cacd"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+window.fbGet = async (col) => {
+  const snap = await db.collection(col).get();
+  return snap.docs.map(d => ({id: d.id, ...d.data()}));
+};
+window.fbSet = async (col, id, data) => {
+  await db.collection(col).doc(String(id)).set(data);
+};
+window.fbAdd = async (col, data) => {
+  const r = await db.collection(col).add(data);
+  return r.id;
+};
+window.fbUpdate = async (col, id, data) => {
+  await db.collection(col).doc(String(id)).update(data);
+};
+window.fbDel = async (col, id) => {
+  await db.collection(col).doc(String(id)).delete();
+};
+window.fbListen = (col, cb) => {
+  return db.collection(col).onSnapshot(snap => {
+    cb(snap.docs.map(d => ({id: d.id, ...d.data()})));
+  });
+};
+window.fbListenDoc = (col, id, cb) => {
+  return db.collection(col).doc(String(id)).onSnapshot(snap => {
+    if(snap.exists) cb({id: snap.id, ...snap.data()});
+  });
+};
+
+window._firebaseReady = true;
+window.dispatchEvent(new Event('firebaseReady'));
+console.log('Firebase connected ✓');
+
+window.safeSet = (col,id,data) => { if(window.fbSet) window.fbSet(col,id,data).catch(console.warn); };
+window.safeAdd = (col,data) => { if(window.fbAdd) return window.fbAdd(col,data).catch(console.warn); };
+window.safeDel = (col,id) => { if(window.fbDel) window.fbDel(col,id).catch(console.warn); };
+window.safeUpdate = (col,id,data) => { if(window.fbUpdate) window.fbUpdate(col,id,data).catch(console.warn); };
+</script>
+
+<script></script>
+<script>
+// ===== CONSTANTS =====
+const STEPS=[
+  {key:'В обработке',icon:'⚙️',title:'В обработке',sub:'Собираем ваш заказ'},
+  {key:'Передан курьеру',icon:'🚚',title:'Передан курьеру',sub:'Заказ отправлен'},
+  {key:'Выполнен',icon:'✅',title:'Выполнен',sub:'Заказ получен'}
+];
+const SD=['XS','S','M','L','XL','XXL'];
+const CD=[{name:'Чёрный',hex:'#1a1a1a'},{name:'Белый',hex:'#f5f5f5'},{name:'Серый',hex:'#6b7280'},{name:'Бежевый',hex:'#d4b896'},{name:'Зелёный',hex:'#22c55e'},{name:'Синий',hex:'#3b82f6'}];
+const CATD=['Футболки','Худи','Брюки','Шорты','Shimomoto'];
+const BAND=[{id:1,title:'Shimomoto',tag:'Коллекция',sub:'Японский уличный стиль.',cat:'Shimomoto',color1:'#1a0533',color2:'#1a3355'}];
+const PD=[
+  {id:1,name:'Essential Tee',cat:'Футболки',price:189000,emoji:'👕',badge:'Хит',desc:'Базовая футболка 100% хлопок. Оверсайз.',order:0},
+  {id:2,name:'Shadow Tee',cat:'Футболки',price:219000,emoji:'👕',badge:'',desc:'Минималистичный дизайн. Унисекс.',order:1},
+  {id:3,name:'MOONERA Hoodie',cat:'Худи',price:459000,emoji:'🧥',badge:'Новинка',desc:'Флисовый хлопок. Кенгуру-карман.',order:2},
+  {id:4,name:'Noir Hoodie',cat:'Худи',price:499000,emoji:'🧥',badge:'',desc:'Тёмно-серый оверсайз.',order:3},
+  {id:5,name:'Cargo Pants',cat:'Брюки',price:389000,emoji:'👖',badge:'',desc:'6 карманов, прямой крой.',order:4},
+  {id:6,name:'Track Pants',cat:'Брюки',price:329000,emoji:'👖',badge:'Хит',desc:'Спортивные брюки с лампасами.',order:5},
+  {id:7,name:'Drift Shorts',cat:'Шорты',price:249000,emoji:'🩳',badge:'',desc:'Широкие шорты, боковые карманы.',order:6},
+  {id:8,name:'Mesh Shorts',cat:'Шорты',price:219000,emoji:'🩳',badge:'',desc:'Сетчатые шорты для жары.',order:7},
+  {id:9,name:'Shimo Kimono Tee',cat:'Shimomoto',price:349000,emoji:'🌸',badge:'Коллекция',desc:'Edo-графика, японский крой.',order:8},
+  {id:10,name:'Sakura Drop Hoodie',cat:'Shimomoto',price:559000,emoji:'🌸',badge:'Лимитед',desc:'Сублимационная печать.',order:9},
+  {id:11,name:'Koi Shorts',cat:'Shimomoto',price:279000,emoji:'🎏',badge:'Коллекция',desc:'Принт Koi на сатине.',order:10},
+  {id:12,name:'Tokyo Cargo',cat:'Shimomoto',price:419000,emoji:'🏯',badge:'Лимитед',desc:'Карго с японским паттерном.',order:11}
+];
+
+// ===== STORAGE — Firebase + localStorage fallback =====
+function gCart(){return JSON.parse(localStorage.getItem('moonera_cart')||'[]');}
+function svCart(c){localStorage.setItem('moonera_cart',JSON.stringify(c));}
+function gFavs(){return JSON.parse(localStorage.getItem('moonera_favs')||'[]');}
+function svFavs(f){localStorage.setItem('moonera_favs',JSON.stringify(f));}
+function gProfile(){return JSON.parse(localStorage.getItem('moonera_profile')||'null');}
+function svProfile(p){localStorage.setItem('moonera_profile',JSON.stringify(p));}
+function fmt(p){return Number(p).toLocaleString('ru-RU')+' сум';}
+
+// Firebase data cache
+let _products=null, _cats=null, _sizes=null, _colors=null, _banners=null, _settings={};
+
+function gP(){return _products||PD;}
+function gCats(){return _cats||[...CATD];}
+function gSizes(){return _sizes||[...SD];}
+function gColors(){return _colors||[...CD];}
+function gBans(){return _banners||[...BAND];}
+function gOrders(){return JSON.parse(localStorage.getItem('moonera_orders_cache')||'[]');}
+
+// Load all data from Firebase
+async function loadFromFirebase(){
+  try {
+    // Products
+    const prods = await window.fbGet('products');
+    if(prods.length) _products = prods.sort((a,b)=>(a.order??99)-(b.order??99));
+
+    // Settings (cats, sizes, colors, banners, visuals)
+    const settings = await window.fbGet('settings');
+    settings.forEach(s => {
+      if(s.id==='cats' && s.value) _cats=s.value;
+      if(s.id==='sizes' && s.value) _sizes=s.value;
+      if(s.id==='colors' && s.value) _colors=s.value;
+      if(s.id==='banners' && s.value) _banners=s.value;
+      if(s.id==='visuals') _settings=s;
+    });
+
+    // Apply visuals from Firebase
+    if(_settings.logo){const li=document.getElementById('logoImg');li.innerHTML=`<img src="${_settings.logo}">`;}
+    if(_settings.banner){
+      const b=_settings.banner,h=document.getElementById('heroBanner');
+      if(b.color1&&b.color2)h.style.background=`linear-gradient(135deg,${b.color1},${b.color2})`;
+      if(b.tag)document.getElementById('heroTag').textContent=b.tag;
+      if(b.title1||b.title2)document.getElementById('heroTitle').innerHTML=(b.title1||'')+'<br>'+(b.title2||'');
+      if(b.sub)document.getElementById('heroSub').textContent=b.sub;
+    }
+    if(_settings.logoColor){
+      const lc=_settings.logoColor,t=document.getElementById('logoTxt');
+      if(lc.type==='gradient'){t.style.background=`linear-gradient(135deg,${lc.color1},${lc.color2})`;t.style.webkitBackgroundClip='text';t.style.webkitTextFillColor='transparent';t.style.backgroundClip='text';}
+      else{t.style.background='none';t.style.webkitTextFillColor=lc.solid;t.style.color=lc.solid;}
+    }
+
+    renderCats(); renderBanners(); renderProds();
+
+    // Listen for order status changes in realtime
+    startOrderListener();
+    startSupportListener();
+
+  } catch(e){
+    console.warn('Firebase load error, using localStorage fallback:', e);
+    renderCats(); renderBanners(); renderProds();
+  }
+}
+
+// Realtime listener for my order status
+let _orderUnsub = null;
+function startOrderListener(){
+  if(_orderUnsub) _orderUnsub();
+  const myId = localStorage.getItem('moonera_my_order_id');
+  if(!myId) return;
+  _orderUnsub = db.collection('orders').doc(myId).onSnapshot(snap => {
+    if(!snap.exists) return;
+    const order = {id: snap.id, ...snap.data()};
+    const orders = JSON.parse(localStorage.getItem('moonera_orders_cache')||'[]');
+    const idx = orders.findIndex(o=>String(o.id)===myId);
+    if(idx>-1) orders[idx]=order; else orders.push(order);
+    localStorage.setItem('moonera_orders_cache', JSON.stringify(orders));
+    const prev = localStorage.getItem('moonera_prev_'+myId);
+    if(order.status !== prev){
+      localStorage.setItem('moonera_prev_'+myId, order.status);
+      chkOrdBtn();
+      if(order.status==='Выполнен' && prev && prev!=='Выполнен') openStatus();
+    }
+  });
+}
+
+// Realtime listener for support messages
+let _supUnsub = null;
+function startSupportListener(){
+  if(_supUnsub) _supUnsub();
+  const clientId = localStorage.getItem('moonera_client_id');
+  if(!clientId) return;
+  _supUnsub = db.collection('support').where('clientId','==',clientId)
+    .onSnapshot(snap => {
+      const msgs = snap.docs.map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>a.date>b.date?1:-1);
+      localStorage.setItem('moonera_support_msgs', JSON.stringify(msgs));
+      chkSupportNotif();
+    });
+}
+
+// Save order to Firebase
+async function saveOrderToFirebase(order){
+  try {
+    await window.safeSet('orders', String(order.id), order);
+    // Cache locally
+    const orders = JSON.parse(localStorage.getItem('moonera_orders_cache')||'[]');
+    orders.push(order);
+    localStorage.setItem('moonera_orders_cache', JSON.stringify(orders));
+    startOrderListener();
+  } catch(e){ console.warn('Order save error:', e); }
+}
+
+// Save support message to Firebase
+async function saveSupportMsg(msg){
+  try {
+    let clientId = localStorage.getItem('moonera_client_id');
+    if(!clientId){
+      clientId = 'client_'+Date.now();
+      localStorage.setItem('moonera_client_id', clientId);
+    }
+    const profile = gProfile();
+    await window.safeAdd('support', {
+      ...msg,
+      clientId,
+      clientName: profile?.name||'Клиент',
+      clientPhone: profile?.phone||''
+    });
+    startSupportListener();
+  } catch(e){ console.warn('Support msg error:', e); }
+}
+
+let cart=gCart(), curCat='all', selSize=null, selColor=null, curProd=null, revRating=0, revSent=false;
+const cardIdx={};  // carousel index per product id
+let detIdx=0, detTotal=0;  // detail popup carousel
+
+// ===== VISUALS =====
+function initVisuals(){
+  const ld=localStorage.getItem('moonera_logo');
+  const li=document.getElementById('logoImg');
+  if(ld)li.innerHTML=`<img src="${ld}">`;else li.textContent='M';
+  const lc=JSON.parse(localStorage.getItem('moonera_logo_color')||'null');
+  if(lc){const t=document.getElementById('logoTxt');
+    if(lc.type==='gradient'){t.style.background=`linear-gradient(135deg,${lc.color1},${lc.color2})`;t.style.webkitBackgroundClip='text';t.style.webkitTextFillColor='transparent';t.style.backgroundClip='text';}
+    else{t.style.background='none';t.style.webkitTextFillColor=lc.solid;t.style.color=lc.solid;}}
+  const b=JSON.parse(localStorage.getItem('moonera_banner')||'null');
+  if(b){const h=document.getElementById('heroBanner');
+    if(b.color1&&b.color2)h.style.background=`linear-gradient(135deg,${b.color1},${b.color2})`;
+    if(b.tag)document.getElementById('heroTag').textContent=b.tag;
+    if(b.title1||b.title2)document.getElementById('heroTitle').innerHTML=(b.title1||'')+'<br>'+(b.title2||'');
+    if(b.sub)document.getElementById('heroSub').textContent=b.sub;}
+}
+function toggleTheme(){
+  const h=document.documentElement;
+  const b=document.getElementById('themeBtn');
+  const isDark=h.dataset.theme==='dark';
+  const newTheme=isDark?'light':'dark';
+  h.dataset.theme=newTheme;
+  // Directly set background on html — fixes mobile browsers
+  h.style.backgroundColor=isDark?'#f5f5f3':'#141414';
+  document.body.style.backgroundColor=isDark?'#f5f5f3':'#141414';
+  document.body.style.color=isDark?'#111111':'#f0f0f0';
+  b.textContent=isDark?'☀️':'🌙';
+  const meta=document.getElementById('metaTheme');
+  if(meta)meta.content=isDark?'#f5f5f3':'#141414';
+  localStorage.setItem('moonera_theme',newTheme);
+}
+
+// ===== NAVIGATION =====
+function openProfile(){
+  document.getElementById('page-shop').classList.remove('on');
+  document.getElementById('page-profile').classList.add('on');
+  showProfilePage();
+}
+function goShop(){
+  document.getElementById('page-profile').classList.remove('on');
+  document.getElementById('page-shop').classList.add('on');
+}
+
+// ===== CATEGORIES =====
+function renderCats(){
+  const cats=gCats();
+  document.getElementById('catsEl').innerHTML=
+    `<div class="chip ${curCat==='all'?'on':''}" onclick="fCat('all',this)">Все</div>`
+    +cats.map(c=>`<div class="chip ${curCat===c?'on':''}" onclick="fCat('${c}',this)">${c==='Shimomoto'?'✦ ':''}${c}</div>`).join('');
+}
+function fCat(cat,el){
+  curCat=cat;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));if(el)el.classList.add('on');
+  document.getElementById('prodTitle').textContent=cat==='all'?'Все товары':cat;
+  const be=document.getElementById('bannersEl');if(be)be.style.display=cat==='all'?'block':'none';
+  renderProds();
+}
+
+// ===== BANNERS =====
+function renderBanners(){
+  const bans=gBans(),el=document.getElementById('bannersEl');
+  if(!bans.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="bwrap">'+bans.map(b=>`
+    <div class="bitem" style="background:linear-gradient(135deg,${b.color1},${b.color2})" onclick="fBan('${b.cat}')">
+      <div style="display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:600;padding:3px 10px;border-radius:50px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">${b.tag}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px">${b.title}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px">${b.sub}</div>
+      <div style="display:inline-flex;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:12px;font-weight:600;padding:6px 14px;border-radius:50px">Смотреть →</div>
+    </div>`).join('')+'</div>';
+}
+function fBan(cat){
+  curCat=cat;document.getElementById('prodTitle').textContent=cat;
+  document.getElementById('bannersEl').style.display='none';
+  document.querySelectorAll('.chip').forEach(c=>{c.classList.remove('on');if(c.textContent.includes(cat))c.classList.add('on');});
+  renderProds();
+}
+
+// ===== PRODUCTS =====
+function renderProds(){
+  const all=gP().sort((a,b)=>(a.order??99)-(b.order??99));
+  const list=curCat==='all'?all:all.filter(p=>p.cat===curCat);
+  const favs=gFavs();
+  const g=document.getElementById('gridEl');
+  if(!list.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx2)">Товаров нет</div>';return;}
+
+  g.innerHTML=list.map(p=>{
+    const qty=cart.filter(i=>i.id===p.id).reduce((s,i)=>s+i.qty,0);
+    const isFav=favs.includes(p.id);
+    const imgs=p.images&&p.images.length?p.images:(p.image?[p.image]:[]);
+    const ctrl=qty>0
+      ?`<div class="cctr"><button class="ccbtn" onclick="event.stopPropagation();cDec(${p.id})">−</button><div class="ccnum">${qty}</div><button class="ccbtn" onclick="event.stopPropagation();openDet(${p.id})">+</button></div>`
+      :`<button class="abtn" onclick="event.stopPropagation();openDet(${p.id})">+</button>`;
+
+    let imgZone;
+    if(imgs.length>1){
+      imgZone=`<div class="pimg" id="pimg-${p.id}">
+        <div class="pimg-track" id="ptrack-${p.id}" style="will-change:transform">
+          ${imgs.map(src=>`<div class="pimg-slide"><img src="${src}" alt="${p.name}"></div>`).join('')}
+        </div>
+        ${p.badge?`<div class="pbadge">${p.badge}</div>`:''}
+        <button class="heart-btn" onclick="event.stopPropagation();toggleFav(${p.id})">${isFav?'❤️':'🤍'}</button>
+        <button class="parr parr-l" onclick="event.stopPropagation();pArr(${p.id},-1)">‹</button>
+        <button class="parr parr-r" onclick="event.stopPropagation();pArr(${p.id},1)">›</button>
+        <div class="pimg-dots" id="pdots-${p.id}">${imgs.map((_,i)=>`<div class="pimg-dot ${i===0?'on':''}"></div>`).join('')}</div>
+      </div>`;
+    } else if(imgs.length===1){
+      imgZone=`<div class="pimg" onclick="openDet(${p.id})">
+        <div class="pimg-track"><div class="pimg-slide"><img src="${imgs[0]}" alt="${p.name}"></div></div>
+        ${p.badge?`<div class="pbadge">${p.badge}</div>`:''}
+        <button class="heart-btn" onclick="event.stopPropagation();toggleFav(${p.id})">${isFav?'❤️':'🤍'}</button>
+      </div>`;
+    } else {
+      imgZone=`<div class="pimg" onclick="openDet(${p.id})">
+        <div class="pimg-track"><div class="pimg-slide pimg-slide-ph">${p.emoji||'👕'}</div></div>
+        ${p.badge?`<div class="pbadge">${p.badge}</div>`:''}
+        <button class="heart-btn" onclick="event.stopPropagation();toggleFav(${p.id})">${isFav?'❤️':'🤍'}</button>
+      </div>`;
+    }
+
+    return `<div class="pcard" onclick="openDet(${p.id})">${imgZone}
+      <div class="pinfo">
+        <div class="pname">${p.name}</div><div class="pcat">${p.cat}</div>
+        <div class="pbot"><div class="pprice">${fmt(p.price)}</div><div onclick="event.stopPropagation()">${ctrl}</div></div>
+      </div></div>`;
+  }).join('');
+
+  // init swipe for multi-image cards
+  list.forEach(p=>{
+    const imgs=p.images&&p.images.length?p.images:(p.image?[p.image]:[]);
+    if(imgs.length>1){cardIdx[p.id]=0;initPSwipe(p.id,imgs.length);}
+  });
+}
+
+// ===== CARD CAROUSEL =====
+function pArr(pid,dir){
+  const track=document.getElementById('ptrack-'+pid);
+  const dots=document.getElementById('pdots-'+pid);
+  if(!track)return;
+  const total=track.children.length;
+  cardIdx[pid]=Math.max(0,Math.min(total-1,(cardIdx[pid]||0)+dir));
+  track.style.transition='transform 0.3s ease';
+  track.style.transform=`translateX(-${cardIdx[pid]*100}%)`;
+  if(dots)dots.querySelectorAll('.pimg-dot').forEach((d,i)=>d.classList.toggle('on',i===cardIdx[pid]));
+}
+
+function initPSwipe(pid,total){
+  const box=document.getElementById('pimg-'+pid);
+  const track=document.getElementById('ptrack-'+pid);
+  const dots=document.getElementById('pdots-'+pid);
+  if(!box||!track)return;
+  let sx=0,sy=0,moved=false,isH=false;
+
+  function go(n){
+    cardIdx[pid]=Math.max(0,Math.min(total-1,n));
+    track.style.transition='transform 0.3s ease';
+    track.style.transform=`translateX(-${cardIdx[pid]*100}%)`;
+    if(dots)dots.querySelectorAll('.pimg-dot').forEach((d,i)=>d.classList.toggle('on',i===cardIdx[pid]));
+  }
+
+  box.addEventListener('touchstart',e=>{sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;moved=false;isH=false;track.style.transition='none';},{passive:true});
+  box.addEventListener('touchmove',e=>{
+    const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(!moved){isH=Math.abs(dx)>Math.abs(dy);moved=true;}
+    if(isH)track.style.transform=`translateX(calc(-${(cardIdx[pid]||0)*100}% + ${dx}px))`;
+  },{passive:true});
+  box.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(isH&&Math.abs(dx)>40){dx<0?go((cardIdx[pid]||0)+1):go((cardIdx[pid]||0)-1);}
+    else{track.style.transition='transform 0.3s ease';track.style.transform=`translateX(-${(cardIdx[pid]||0)*100}%)`;
+      if(Math.abs(dx)<8&&Math.abs(dy)<8)openDet(pid);}
+  },{passive:true});
+}
+
+// ===== PRODUCT DETAIL =====
+function openDet(id){
+  const p=gP().find(x=>x.id===id);if(!p)return;
+  curProd=id;selSize=null;selColor=null;detIdx=0;
+
+  document.getElementById('detName').textContent=p.name;
+  document.getElementById('detPrice').textContent=fmt(p.price);
+  document.getElementById('detCat').textContent=p.cat;
+  document.getElementById('detDesc').textContent=p.desc||'';
+
+  const imgs=p.images&&p.images.length?p.images:(p.image?[p.image]:[]);
+  const box=document.getElementById('detImgBox');
+  detTotal=imgs.length;
+
+  if(!imgs.length){
+    box.innerHTML=`<div class="det-img-box"><div class="det-img-ph">${p.emoji||'👕'}</div></div>`;
+  } else if(imgs.length===1){
+    box.innerHTML=`<div class="det-img-box"><img src="${imgs[0]}" alt="${p.name}" style="max-width:100%;max-height:100%;object-fit:contain"></div>`;
+  } else {
+    box.innerHTML=`<div class="det-img-box" id="detImgInner">
+      <div id="detTrack" style="display:flex;width:100%;height:100%;transition:transform 0.3s ease">
+        ${imgs.map(src=>`<div style="min-width:100%;height:100%;display:flex;align-items:center;justify-content:center"><img src="${src}" style="max-width:100%;max-height:100%;object-fit:contain"></div>`).join('')}
+      </div>
+      <button class="det-arr det-arr-l" onclick="detGo(-1)">‹</button>
+      <button class="det-arr det-arr-r" onclick="detGo(1)">›</button>
+      <div class="det-dots" id="detDots">${imgs.map((_,i)=>`<div class="det-dot ${i===0?'on':''}"></div>`).join('')}</div>
+    </div>`;
+    // swipe on detail too
+    const inner=document.getElementById('detImgInner');
+    let sx=0;
+    inner.addEventListener('touchstart',e=>{sx=e.changedTouches[0].clientX;},{passive:true});
+    inner.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)detGo(dx<0?1:-1);},{passive:true});
+  }
+
+  const sizes=p.sizes&&p.sizes.length?p.sizes:gSizes();
+  document.getElementById('detSizes').innerHTML=sizes.map(s=>`<div class="sc" onclick="selS('${s}',this)">${s}</div>`).join('');
+  const colors=p.colors&&p.colors.length?p.colors:gColors();
+  document.getElementById('detColors').innerHTML=colors.map(c=>`<div class="cc" style="background:${c.hex}" title="${c.name}" onclick="selC('${c.name}',this)"><span class="cc-tip">${c.name}</span></div>`).join('');
+
+  document.getElementById('detOv').classList.add('on');
+  document.getElementById('detSh').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function detGo(dir){
+  detIdx=Math.max(0,Math.min(detTotal-1,detIdx+dir));
+  const t=document.getElementById('detTrack');if(t)t.style.transform=`translateX(-${detIdx*100}%)`;
+  const d=document.getElementById('detDots');if(d)d.querySelectorAll('.det-dot').forEach((x,i)=>x.classList.toggle('on',i===detIdx));
+}
+
+function closeDet(){document.getElementById('detOv').classList.remove('on');document.getElementById('detSh').classList.remove('on');document.body.style.overflow='';}
+function selS(s,el){selSize=s;document.querySelectorAll('#detSizes .sc').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function selC(n,el){selColor=n;document.querySelectorAll('#detColors .cc').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function addFromDet(){
+  if(!selSize){toast('Выбери размер!');return;}
+  if(!selColor){toast('Выбери цвет!');return;}
+  const p=gP().find(x=>x.id===curProd);if(!p)return;
+  const label=`${selSize} · ${selColor}`;
+  const ex=cart.find(i=>i.id===p.id&&i.size===label);
+  if(ex)ex.qty++;else cart.push({id:p.id,name:p.name,price:p.price,emoji:p.emoji||'👕',image:(p.images&&p.images[0])||p.image||null,size:label,qty:1});
+  svCart(cart);updCart();closeDet();toast(`${p.name} добавлен ✓`);renderProds();
+}
+function cDec(id){
+  const e=cart.filter(i=>i.id===id);if(!e.length)return;
+  const l=e[e.length-1];l.qty--;if(l.qty<=0)cart.splice(cart.indexOf(l),1);
+  svCart(cart);updCart();renderProds();
+}
+function toggleFav(id){
+  let f=gFavs();const i=f.indexOf(id);
+  if(i>-1)f.splice(i,1);else f.push(id);
+  svFavs(f);renderProds();toast(i>-1?'Убрано из избранного':'Добавлено ❤️');
+}
+
+// ===== CART =====
+function updCart(){
+  const t=cart.reduce((s,i)=>s+i.qty,0);
+  const b=document.getElementById('cbadge');b.textContent=t;b.classList.toggle('on',t>0);
+}
+function openCart(){renderCartList();document.getElementById('cartOv').classList.add('on');document.getElementById('cartSh').classList.add('on');document.body.style.overflow='hidden';}
+function closeCart(){document.getElementById('cartOv').classList.remove('on');document.getElementById('cartSh').classList.remove('on');document.body.style.overflow='';}
+function renderCartList(){
+  const el=document.getElementById('cartItems'),ft=document.getElementById('cartFooter');
+  if(!cart.length){el.innerHTML='<div class="cempty"><div style="font-size:48px;margin-bottom:12px">🛒</div>Корзина пуста</div>';ft.style.display='none';return;}
+  el.innerHTML=cart.map((it,idx)=>`
+    <div class="ci">
+      <div class="ci-img">${it.image?`<img src="${it.image}">`:(it.emoji||'👕')}</div>
+      <div class="ci-info"><div class="ci-name">${it.name}</div><div class="ci-size">${it.size}</div>
+        <div class="qctrl"><button class="qbtn" onclick="chQ(${idx},-1)">−</button><div class="qnum">${it.qty}</div><button class="qbtn" onclick="chQ(${idx},1)">+</button></div>
+      </div><div class="ci-price">${fmt(it.price*it.qty)}</div>
+    </div>`).join('');
+  document.getElementById('cartTotal').textContent=fmt(cart.reduce((s,i)=>s+i.price*i.qty,0));
+  ft.style.display='block';
+}
+function chQ(idx,d){cart[idx].qty+=d;if(cart[idx].qty<=0)cart.splice(idx,1);svCart(cart);updCart();renderCartList();renderProds();}
+
+// ===== ORDER =====
+function fmtP(input){
+  let d=input.value.replace(/\D/g,'');
+  if(d.startsWith('998'))d=d.slice(3);else if(d.startsWith('8'))d=d.slice(1);
+  d=d.slice(0,9);let f='+998';
+  if(d.length>0)f+=' '+d.slice(0,2);if(d.length>2)f+=' '+d.slice(2,5);if(d.length>5)f+=' '+d.slice(5,7);if(d.length>7)f+=' '+d.slice(7,9);
+  input.value=f;
+}
+function pdKD(e,i){if(e.key==='Backspace'&&i.value==='+998')e.preventDefault();}
+function openOrder(){
+  document.getElementById('orderTotal').textContent=fmt(cart.reduce((s,i)=>s+i.price*i.qty,0));
+  document.getElementById('orderForm').style.display='block';
+  document.getElementById('succEl').classList.remove('on');
+  const p=gProfile();
+  if(p){document.getElementById('fn').value=p.name||'';if(!document.getElementById('fp').value)document.getElementById('fp').value=p.phone||'+998';}
+  else if(!document.getElementById('fp').value)document.getElementById('fp').value='+998';
+  document.getElementById('orderOv').classList.add('on');document.getElementById('orderSh').classList.add('on');
+  closeCart();
+}
+function closeOrder(){document.getElementById('orderOv').classList.remove('on');document.getElementById('orderSh').classList.remove('on');document.body.style.overflow='';}
+function submitOrder(){
+  const name=document.getElementById('fn').value.trim();
+  const phone=document.getElementById('fp').value.trim();
+  const addr=document.getElementById('fa').value.trim();
+  let ok=true;
+  [{id:'fn',v:name},{id:'fp',v:phone,min:15},{id:'fa',v:addr}].forEach(f=>{
+    const el=document.getElementById(f.id);el.classList.remove('err');
+    if(!f.v||(f.min&&f.v.length<f.min)){el.classList.add('err');ok=false;}
+  });
+  if(!ok){toast('Заполни все обязательные поля!');return;}
+  const order={id:Date.now(),date:new Date().toISOString(),name,phone,address:addr,tg:document.getElementById('ftg').value.trim(),items:[...cart],total:cart.reduce((s,i)=>s+i.price*i.qty,0),status:'В обработке'};
+  cart=[];svCart(cart);updCart();
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('succEl').classList.add('on');
+  document.getElementById('ordBtn').classList.add('on');
+  localStorage.setItem('moonera_my_order_id',String(order.id));
+  saveOrderToFirebase(order);
+}
+function closeSucc(){closeOrder();}
+
+// ===== ORDER STATUS =====
+function getMyOrder(){
+  const id=localStorage.getItem('moonera_my_order_id');
+  if(!id) return null;
+  return gOrders().find(o=>String(o.id)===id)||null;
+}
+function chkOrdBtn(){const o=getMyOrder();document.getElementById('ordBtn').classList.toggle('on',!!o&&o.status!=='Выполнен');}
+function openStatus(){
+  const o=getMyOrder();if(!o)return;
+  document.getElementById('statInfo').innerHTML=`Заказ <b>#${String(o.id).slice(-6)}</b> · ${new Date(o.date).toLocaleDateString('ru-RU')} · <b style="color:var(--g1)">${o.status}</b>`;
+  const ci=STEPS.findIndex(s=>s.key===o.status);
+  document.getElementById('statSteps').innerHTML=STEPS.map((s,i)=>{
+    const cls=i<ci?'done':i===ci?'active':'pend';
+    return `<div class="ostep ${cls}"><div class="sico">${i<ci?'✓':s.icon}</div><div class="sinfo"><div class="stitle">${s.title}</div><div class="ssub">${s.sub}</div></div></div>`;
+  }).join('');
+  const rs=document.getElementById('revSec');
+  const done=localStorage.getItem('moonera_reviewed_'+o.id);
+  if(o.status==='Выполнен'){rs.style.display='block';
+    if(done){document.getElementById('revForm').style.display='none';document.getElementById('revDone').style.display='block';}
+    else{document.getElementById('revForm').style.display='block';document.getElementById('revDone').style.display='none';revSent=false;}
+  }else rs.style.display='none';
+  document.getElementById('statOv').classList.add('on');document.getElementById('statSh').classList.add('on');document.body.style.overflow='hidden';
+}
+function closeStat(){
+  document.getElementById('statOv').classList.remove('on');document.getElementById('statSh').classList.remove('on');document.body.style.overflow='';
+  const o=getMyOrder();if(o&&o.status==='Выполнен')document.getElementById('ordBtn').classList.remove('on');
+}
+
+// ===== REVIEW =====
+function setR(n){revRating=n;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));}
+function submitRev(){
+  if(revSent)return;if(!revRating){toast('Поставьте оценку!');return;}
+  const o=getMyOrder();if(!o)return;revSent=true;
+  const revs=JSON.parse(localStorage.getItem('moonera_reviews')||'[]');
+  revs.push({orderId:o.id,rating:revRating,text:document.getElementById('revText').value.trim(),date:new Date().toISOString()});
+  localStorage.setItem('moonera_reviews',JSON.stringify(revs));
+  localStorage.setItem('moonera_reviewed_'+o.id,'1');
+  document.getElementById('revForm').style.display='none';
+  document.getElementById('revDone').style.display='block';
+  setTimeout(()=>closeStat(),2000);
+}
+
+// ===== SUPPORT NOTIF =====
+function chkSupportNotif(){
+  const msgs=JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]');
+  const has=msgs.some(m=>m.from==='admin'&&!m.clientRead);
+  document.getElementById('profNotif').classList.toggle('on',has);
+}
+
+// ===== PROFILE =====
+function showProfilePage(){
+  const p=gProfile();
+  const back=`<div style="padding:16px 20px 0;display:flex;align-items:center;gap:10px"><button onclick="goShop()" style="width:36px;height:36px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx)">←</button><span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700">Профиль</span></div>`;
+  if(!p){document.getElementById('profContent').innerHTML=back+`<div style="padding:20px"><label class="fl">Имя</label><input class="fi" id="prof-name" placeholder="Твоё имя" style="margin-bottom:14px"><label class="fl">Телефон</label><input class="fi" id="prof-phone" placeholder="+998 90 123 45 67" type="tel" maxlength="17" oninput="fmtP(this)" onkeydown="pdKD(event,this)" style="margin-bottom:24px"><button class="gbtnf" style="margin-bottom:0" onclick="saveProfile()">Сохранить профиль</button></div>`;return;}
+  const photo=localStorage.getItem('moonera_client_photo');
+  const favs=gFavs();
+  const msgs=JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]');
+  const hasNew=msgs.some(m=>m.from==='admin'&&!m.clientRead);
+  document.getElementById('profContent').innerHTML=`
+    ${back}
+    <div class="prof-header">
+      <div class="prof-avatar-wrap"><input type="file" accept="image/*" onchange="uploadPhoto(event)"><div class="prof-avatar">${photo?`<img src="${photo}">`:(p.name[0].toUpperCase())}</div><div class="prof-avatar-edit">📷</div></div>
+      <div class="prof-name">${p.name}</div><div class="prof-phone">${p.phone}</div>
+    </div>
+    <div class="pmenu-item" onclick="showFavs()"><div class="pmenu-icon" style="background:rgba(239,68,68,0.15)">❤️</div><div><div class="pmenu-title">Избранное</div><div class="pmenu-sub">${favs.length} товаров</div></div><span style="color:var(--tx2);margin-left:auto">›</span></div>
+    <div class="pmenu-item" onclick="showOrders()"><div class="pmenu-icon" style="background:rgba(74,222,128,0.15)">📦</div><div><div class="pmenu-title">История заказов</div></div><span style="color:var(--tx2);margin-left:auto">›</span></div>
+    <div class="pmenu-item" onclick="showMyRevs()"><div class="pmenu-icon" style="background:rgba(251,191,36,0.15)">⭐</div><div><div class="pmenu-title">Мои отзывы</div></div><span style="color:var(--tx2);margin-left:auto">›</span></div>
+    <div class="pmenu-item" onclick="showSupport()"><div class="pmenu-icon" style="background:rgba(139,92,246,0.15);position:relative">💬${hasNew?'<span style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:#ef4444"></span>':''}</div><div><div class="pmenu-title">Поддержка${hasNew?' <span style="background:#ef4444;color:#fff;font-size:10px;padding:2px 7px;border-radius:50px">новое</span>':''}</div></div><span style="color:var(--tx2);margin-left:auto">›</span></div>
+    <div style="padding:20px"><button style="width:100%;padding:14px;border-radius:var(--rb);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#f87171;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer" onclick="logoutProf()">Выйти из профиля</button></div>`;
+}
+function saveProfile(){
+  const name=document.getElementById('prof-name').value.trim();
+  const phone=document.getElementById('prof-phone').value.trim();
+  if(!name||phone.length<15){toast('Заполни имя и телефон');return;}
+  svProfile({name,phone});showProfilePage();
+}
+function logoutProf(){localStorage.removeItem('moonera_profile');showProfilePage();}
+function uploadPhoto(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{localStorage.setItem('moonera_client_photo',ev.target.result);showProfilePage();toast('Фото обновлено ✓');};r.readAsDataURL(f);}
+
+function bkHdr(title){return `<div style="padding:16px 20px 0;display:flex;align-items:center;gap:10px;margin-bottom:4px"><button onclick="showProfilePage()" style="width:36px;height:36px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx)">←</button><span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700">${title}</span></div>`;}
+function statCls(s){return s==='В обработке'?'stat-proc':s==='Передан курьеру'?'stat-ship':s==='Выполнен'?'stat-done':'stat-cancel';}
+
+function showFavs(){
+  const favs=gFavs(),all=gP(),prods=all.filter(p=>favs.includes(p.id));
+  document.getElementById('profContent').innerHTML=bkHdr('❤️ Избранное')+`<div class="prof-section">
+    ${prods.length?`<div class="prof-fav-grid">${prods.map(p=>`
+      <div class="fav-card" onclick="openDet(${p.id})">
+        <div class="fav-img">${(p.images&&p.images[0])||p.image?`<img src="${(p.images&&p.images[0])||p.image}">`:(p.emoji||'👕')}</div>
+        <div class="fav-name">${p.name}</div><div class="fav-price">${fmt(p.price)}</div>
+        <button onclick="event.stopPropagation();removeFav(${p.id})" style="width:100%;padding:6px;background:rgba(239,68,68,0.1);border:none;border-top:1px solid var(--bd);color:#f87171;font-size:12px;font-weight:600;cursor:pointer">✕ Убрать</button>
+      </div>`).join('')}</div>`:`<div class="prof-empty">Нет избранных товаров</div>`}
+  </div>`;
+}
+function removeFav(id){let f=gFavs();f=f.filter(x=>x!==id);svFavs(f);renderProds();showFavs();toast('Убрано из избранного');}
+
+function showOrders(){
+  const myPhone=gProfile()?.phone;
+  const all=gOrders().filter(o=>!myPhone||o.phone===myPhone).reverse();
+  document.getElementById('profContent').innerHTML=bkHdr('📦 История заказов')+`<div class="prof-section">
+    ${all.length?all.map(o=>`<div class="prof-order-card" onclick="viewOrd('${o.id}')">
+      <div class="prof-order-head"><span class="prof-order-id">#${String(o.id).slice(-6)}</span><span class="stat-badge ${statCls(o.status)}">${o.status}</span></div>
+      <div style="font-size:12px;color:var(--tx2);margin-bottom:6px">${new Date(o.date).toLocaleDateString('ru-RU')}</div>
+      <div style="font-size:12px;color:var(--tx2)">${(o.items||[]).map(i=>i.name).join(', ')}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;margin-top:6px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${fmt(o.total)}</div>
+    </div>`).join(''):`<div class="prof-empty">Заказов пока нет</div>`}
+  </div>`;
+}
+function viewOrd(id){localStorage.setItem('moonera_my_order_id',String(id));openStatus();}
+
+function showMyRevs(){
+  const revs=JSON.parse(localStorage.getItem('moonera_reviews')||'[]');
+  document.getElementById('profContent').innerHTML=bkHdr('⭐ Мои отзывы')+`<div class="prof-section">
+    ${revs.length?[...revs].reverse().map(r=>`<div class="my-rev-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:16px">${'⭐'.repeat(r.rating)}</span><span style="font-size:11px;color:var(--tx2)">${new Date(r.date).toLocaleDateString('ru-RU')}</span></div>
+      ${r.text?`<div style="font-size:13px;line-height:1.5">${r.text}</div>`:''}
+    </div>`).join(''):`<div class="prof-empty">Нет отзывов</div>`}
+  </div>`;
+}
+
+function showSupport(){
+  const msgs=JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]');
+  msgs.forEach(m=>{if(m.from==='admin')m.clientRead=true;});
+  localStorage.setItem('moonera_support_msgs',JSON.stringify(msgs));
+  chkSupportNotif();
+  document.getElementById('profContent').innerHTML=bkHdr('💬 Поддержка')+`<div class="prof-section">
+    <div id="sup-msgs" style="margin-bottom:16px;max-height:50vh;overflow-y:auto">
+      ${msgs.length?msgs.map(m=>`<div><div class="sup-msg ${m.from}">${m.text}</div><div class="sup-time" style="text-align:${m.from==='user'?'right':'left'}">${new Date(m.date).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</div></div>`).join(''):'<div class="prof-empty" style="padding:16px 0">Напишите нам</div>'}
+    </div>
+    <div style="display:flex;gap:8px">
+      <input class="fi" id="sup-input" style="flex:1;margin:0" placeholder="Ваш вопрос..." type="text" onkeydown="if(event.key==='Enter')sendSup()">
+      <button class="gbtnf" style="width:auto;padding:14px 18px;margin:0;flex-shrink:0" onclick="sendSup()">→</button>
+    </div>
+  </div>`;
+  setTimeout(()=>{const e=document.getElementById('sup-msgs');if(e)e.scrollTop=e.scrollHeight;},50);
+}
+function sendSup(){
+  const el=document.getElementById('sup-input');const text=el.value.trim();if(!text)return;
+  const msg={from:'user',text,date:new Date().toISOString()};
+  const msgs=JSON.parse(localStorage.getItem('moonera_support_msgs')||'[]');
+  msgs.push(msg);
+  localStorage.setItem('moonera_support_msgs',JSON.stringify(msgs));
+  saveSupportMsg(msg);
+  el.value='';showSupport();toast('Сообщение отправлено');
+}
+
+// ===== TOAST =====
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+// ===== POLL (support notif only — orders use realtime listener) =====
+setInterval(()=>{ chkSupportNotif(); }, 5000);
+
+// ===== INIT =====
+(function(){
+  const saved=localStorage.getItem('moonera_theme')||'dark';
+  const h=document.documentElement;
+  h.dataset.theme=saved;
+  const isLight=saved==='light';
+  h.style.backgroundColor=isLight?'#f5f5f3':'#141414';
+  document.body.style.backgroundColor=isLight?'#f5f5f3':'#141414';
+  document.body.style.color=isLight?'#111111':'#f0f0f0';
+  const meta=document.getElementById('metaTheme');
+  if(meta)meta.content=isLight?'#f5f5f3':'#141414';
+  const btn=document.getElementById('themeBtn');
+  if(btn)btn.textContent=isLight?'☀️':'🌙';
+})();
+initVisuals();updCart();chkOrdBtn();chkSupportNotif();
+// Load from Firebase when ready
+if(window._firebaseReady){
+  loadFromFirebase();
+} else {
+  window.addEventListener('firebaseReady', loadFromFirebase);
+  // Fallback if Firebase doesn't load in 3s
+  setTimeout(()=>{
+    if(!_products){ renderCats();renderBanners();renderProds(); }
+  }, 3000);
+}
+</script>
+</body>
+</html>
