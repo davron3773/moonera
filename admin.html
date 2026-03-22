@@ -477,8 +477,9 @@ function startOrdersListener(){
 
 function startSupListener(){
   if(_supUnsub)_supUnsub();
-  _supUnsub=db.collection('support').orderBy('date').onSnapshot(snap=>{
-    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}));
+  _supUnsub=db.collection('support').onSnapshot(snap=>{
+    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}))
+      .sort((a,b)=>a.date>b.date?1:-1);
     localStorage.setItem('adm_support_msgs',JSON.stringify(msgs));
     chkSupNotif();
     if(document.getElementById('tab-support').classList.contains('on')){
@@ -1020,8 +1021,8 @@ function addCollBan(){
 }
 function delCollBan(i){const bans=gBans();bans.splice(i,1);_banners=bans;db.collection('settings').doc('banners').set({value:bans}).then(()=>{renderCollBanList();toast('Удалён');}).catch(console.warn);}
 function renderRevList(){
-  db.collection('reviews').orderBy('date','desc').limit(20).get().then(snap=>{
-    const revs=snap.docs.map(d=>({id:d.id,...d.data()}));
+  db.collection('reviews').get().then(snap=>{
+    const revs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.date>a.date?1:-1).slice(0,20);
     const el=document.getElementById('revListEl');
     el.innerHTML=revs.length?revs.map(r=>`<div style="background:var(--sf2);border-radius:14px;padding:12px;margin-bottom:8px;border:1px solid var(--bd)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span>${'⭐'.repeat(r.rating)}</span><span style="font-size:11px;color:var(--tx2)">${new Date(r.date).toLocaleDateString('ru-RU')}</span></div>${r.text?`<div style="font-size:13px">${r.text}</div>`:''}</div>`).join(''):'<div style="text-align:center;padding:20px;color:var(--tx2)">Нет отзывов</div>';
   }).catch(()=>{});
